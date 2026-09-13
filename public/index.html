@@ -3,155 +3,177 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PHRlite — Your Health Passport, Held with Care & Sealed with Math</title>
-  <meta name="description" content="A sovereign health passport that stays on your phone. Stamped by your doctors, guarded by your biometrics, and free for life.">
+  <title>PHRlite — The Sovereign Health Passport</title>
+  <meta name="description" content="Your lifelong medical history held in your hands. Stamped by clinicians, sealed by mathematics, and free for life.">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#064e3b">
+  <meta name="theme-color" content="#083325">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Navigation Header -->
+  <!-- Editorial Top Bar -->
   <header class="header">
     <nav class="nav-container">
-      <a href="#" class="brand-logo">
-        <div class="brand-icon-box">🛂</div>
-        <div class="brand-title">
-          PHRlite <span class="brand-badge">SOVEREIGN & FREE</span>
+      <a href="#" class="brand-group">
+        <div class="brand-emblem">🛂</div>
+        <div class="brand-name">
+          PHRlite <span class="brand-pill">OPEN SOVEREIGN PROTOCOL</span>
         </div>
       </a>
-      <ul class="nav-links">
-        <li><a href="#why-you-love-it">Why Patients Love It</a></li>
-        <li><a href="#security-standard">Security Standard</a></li>
-        <li><a href="#clinic-flow">At The Clinic</a></li>
-        <li><a href="#pwa-hub">Try Live PWA</a></li>
-        <li><a href="#pwa-hub" class="btn-pill-primary">Open My Passport</a></li>
+      <ul class="nav-menu">
+        <li><a href="#liberation">Healthcare Liberated</a></li>
+        <li><a href="#security-trust">Security Standard</a></li>
+        <li><a href="#interactive-suite">Live Application</a></li>
+        <li><a href="#interactive-suite" class="btn-nav-primary">Open Passport</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Hero Section with Interactive Mobile Phone Mockup -->
-  <section class="hero-section">
-    <div class="hero-grid">
-      <!-- Left: Empathetic Copy -->
-      <div class="hero-content">
-        <div class="trust-pill">
-          🌿 100% Private • Free for Life • Zero Corporate Snooping
+  <!-- HERO SECTION WITH PARALLAX & PERSONA BLENDING -->
+  <section class="hero-wrapper">
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+
+    <div class="hero-inner">
+      <!-- Left: Persona-Driven Value Proposition -->
+      <div class="hero-text-side">
+        
+        <!-- Interactive Persona Switcher -->
+        <div class="persona-switcher-pill">
+          <button class="persona-btn active" data-persona="family">
+            <span>👨‍👩‍👧</span> For Families & Parents
+          </button>
+          <button class="persona-btn" data-persona="doctor">
+            <span>🩺</span> For Doctors & Clinics
+          </button>
+          <button class="persona-btn" data-persona="school">
+            <span>🎒</span> For School Screening (SKIDS)
+          </button>
         </div>
-        <h1 class="hero-title">
-          Your body has a story. <span>Finally, you own the book.</span>
+
+        <h1 class="hero-headline" id="hero-main-headline">
+          Your body has a story. <em>Finally, you own the book.</em>
         </h1>
-        <p class="hero-subtitle">
+
+        <p class="hero-description" id="hero-main-desc">
           A lifelong health passport that lives securely on your phone. Stamped by your doctors, protected by your Face ID, and never sold to insurers or tech giants.
         </p>
 
-        <div class="hero-cta-group">
-          <a href="#pwa-hub" class="btn-pill-primary" style="font-size: 1rem; padding: 0.85rem 1.8rem;">
-            ✨ Open Health Passport
+        <div class="hero-cta-row">
+          <a href="#interactive-suite" class="btn-hero-main">
+            ✨ Launch Health Passport (Free PWA)
           </a>
-          <button class="btn-pill-secondary" onclick="showDoctorQRModal()">
+          <button class="btn-hero-alt" onclick="showPassModal()">
             📱 Show Doctor QR Pass
           </button>
         </div>
 
-        <!-- Social Proof & Trusted Network -->
-        <div class="social-proof">
-          <div class="avatar-stack">
-            <div>👩</div>
-            <div>👨</div>
-            <div>👧</div>
-            <div>👴</div>
+        <!-- Social Proof -->
+        <div class="social-proof" style="display: flex; align-items: center; gap: 0.9rem; border-top: 1px solid var(--border-warm); padding-top: 1.5rem;">
+          <div class="avatar-stack" style="display: flex;">
+            <div style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid white; background: #e2ddd6; display: flex; align-items: center; justify-content: center; margin-left: 0;">👩</div>
+            <div style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid white; background: #e2ddd6; display: flex; align-items: center; justify-content: center; margin-left: -8px;">👨</div>
+            <div style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid white; background: #e2ddd6; display: flex; align-items: center; justify-content: center; margin-left: -8px;">👧</div>
+            <div style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid white; background: #e2ddd6; display: flex; align-items: center; justify-content: center; margin-left: -8px;">👴</div>
           </div>
-          <div class="proof-text">
-            Loved by <strong>10,000+ families</strong> & pediatric school health networks (SKIDS) ❤️
+          <div class="proof-text" style="font-size: 0.88rem; color: var(--ink-secondary); font-weight: 600;">
+            Trusted by <strong style="color: var(--forest-deep);">10,000+ families</strong> & pediatric school networks (SKIDS) ❤️
           </div>
         </div>
       </div>
 
-      <!-- Right: Interactive iPhone Screen Mockup -->
-      <div class="phone-mockup-wrapper">
-        <div class="phone-glow-bg"></div>
-        <div class="iphone-frame">
-          <div class="iphone-notch">
-            <div class="notch-camera"></div>
+      <!-- Right: Interactive Parallax 3D Device Stage -->
+      <div class="parallax-stage" id="parallax-stage">
+        
+        <!-- Floating Parallax Badges -->
+        <div class="floating-badge badge-top-right" id="badge-top-right">
+          <div class="badge-icon" style="background: var(--forest-subtle); color: var(--forest-rich);">🛡️</div>
+          <div>
+            <div class="badge-text-top" id="badge-top-tag">SOVEREIGN VAULT</div>
+            <div class="badge-text-main" id="badge-top-text">100% Offline on Phone</div>
           </div>
+        </div>
+
+        <div class="floating-badge badge-bottom-left" id="badge-bottom-left">
+          <div class="badge-icon" style="background: var(--amber-light); color: var(--amber-burnished);">🎒</div>
+          <div>
+            <div class="badge-text-top" id="badge-bot-tag">FAMILY VAULT</div>
+            <div class="badge-text-main" id="badge-bot-text">Rohan & Aarav Linked</div>
+          </div>
+        </div>
+
+        <!-- Phone Shell -->
+        <div class="phone-viewport" id="phone-viewport">
+          <div class="viewport-notch"></div>
           
-          <div class="iphone-screen">
-            <!-- App Header -->
-            <div class="app-header">
-              <div class="app-user-info">
-                <div class="app-avatar">R</div>
+          <div class="viewport-screen">
+            
+            <!-- App User Header -->
+            <div class="app-user-bar">
+              <div class="user-meta-group">
+                <div class="user-avatar-initial">R</div>
                 <div>
-                  <div class="app-user-name" id="phone-user-name">Rohan Verma</div>
-                  <div class="app-status-badge">
-                    <span class="status-dot"></span> Vault Encrypted & Safe
+                  <div class="user-name-display" id="phone-user-display">Rohan Verma</div>
+                  <div class="user-lock-status">
+                    <span class="pulse-gem"></span> Face ID Protected
                   </div>
                 </div>
               </div>
-              <button onclick="showEmergencyCardModal()" style="background: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 9999px; cursor: pointer;">
-                🚨 Medical ID
+              <button onclick="showMedicalIdModal()" style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; font-size: 0.72rem; font-weight: 800; padding: 3px 9px; border-radius: 9999px; cursor: pointer;">
+                🚨 Emergency ID
               </button>
             </div>
 
-            <!-- Profile Switcher (Family Vault) -->
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.9rem; background: var(--bg-sand); padding: 3px; border-radius: 9999px;">
-              <button id="tab-prof-rohan" onclick="switchProfile('rohan')" style="flex: 1; border: none; background: #064e3b; color: white; padding: 4px 10px; border-radius: 9999px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">
-                👤 Rohan (Self)
-              </button>
-              <button id="tab-prof-aarav" onclick="switchProfile('aarav')" style="flex: 1; border: none; background: white; color: #57534e; padding: 4px 10px; border-radius: 9999px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">
-                🎒 Aarav (Child • SKIDS)
-              </button>
-            </div>
-
-            <!-- The Tactile Passport Card -->
-            <div class="mobile-passport-card">
-              <div class="card-gold-seal">🛡️</div>
-              <div class="card-top-row">
-                <div class="card-title-badge">
+            <!-- The Tactile Passport Leather Card -->
+            <div class="digital-passport-cover">
+              <div class="gold-watermark">🛡️</div>
+              <div class="passport-top-row">
+                <div class="passport-label">
                   <span>🛂</span> Health Passport
                 </div>
-                <div class="blood-pill" id="phone-blood-pill">BLOOD: B+</div>
+                <div class="blood-type-badge" id="phone-card-blood">BLOOD: B+</div>
               </div>
-              <div class="card-patient-name" id="phone-card-name">Rohan Verma</div>
-              <div class="card-id-text" id="phone-card-id">PASSPORT-IND-2026-9812</div>
 
-              <div class="card-bottom-stats">
+              <div class="passport-holder-name" id="phone-card-holder">Rohan Verma</div>
+              <div class="passport-doc-num" id="phone-card-doc-num">PASSPORT-IND-2026-9812</div>
+
+              <div class="passport-meta-grid">
                 <div>
-                  <div class="card-stat-label">Security</div>
-                  <div class="card-stat-val">🔒 Face ID Locked</div>
+                  <div class="meta-col-title">Security</div>
+                  <div class="meta-col-val">🔒 Local SQLite E2EE</div>
                 </div>
                 <div>
-                  <div class="card-stat-label">Verified History</div>
-                  <div class="card-stat-val" id="phone-card-stamps-count">3 Stamps</div>
+                  <div class="meta-col-title">Verified Commits</div>
+                  <div class="meta-col-val" id="phone-card-stamps-num">3 Stamps</div>
                 </div>
               </div>
             </div>
 
-            <!-- Fast Action Buttons -->
-            <div class="app-action-grid">
-              <div class="action-btn-card" onclick="showDoctorQRModal()">
-                <div class="action-icon">🏁</div>
-                <div class="action-title">Clinic Check-In</div>
-                <div class="action-desc">1-Tap 4hr Doctor Pass</div>
+            <!-- Quick Action Tiles -->
+            <div class="card-action-duo">
+              <div class="action-tile" onclick="showPassModal()">
+                <div class="tile-icon">🏁</div>
+                <div class="tile-headline">Doctor Check-In</div>
+                <div class="tile-sub">1-Tap 4hr QR Pass</div>
               </div>
-              <div class="action-btn-card" onclick="showEmergencyCardModal()">
-                <div class="action-icon">🩸</div>
-                <div class="action-title">Emergency Card</div>
-                <div class="action-desc">Allergies & Contacts</div>
+              <div class="action-tile" onclick="showMedicalIdModal()">
+                <div class="tile-icon">🩸</div>
+                <div class="tile-headline">Emergency Card</div>
+                <div class="tile-sub">Allergies & Contacts</div>
               </div>
             </div>
 
-            <!-- Stamped Clinical Feed Inside Phone -->
-            <div class="feed-header">
-              <h5>Official Clinician Stamps</h5>
-              <span class="feed-count" id="phone-feed-count">3 Verified</span>
+            <!-- Stamped Clinical Commits Feed -->
+            <div class="stamps-feed-heading">
+              <h6>Official Clinician Stamps</h6>
+              <span class="stamps-count-pill" id="phone-feed-counter">3 Verified</span>
             </div>
 
-            <div class="feed-list" id="phone-feed-list">
-              <!-- Rendered dynamically by app.js -->
+            <div class="stamps-scroll-list" id="phone-feed-scroll">
+              <!-- Rendered by app.js -->
             </div>
 
           </div>
@@ -160,308 +182,384 @@
     </div>
   </section>
 
-  <!-- SECTION 1: Why Patients & Families Love It -->
-  <section id="why-you-love-it" class="benefits-section">
-    <div class="section-head">
-      <span class="section-eyebrow">Designed for Real Life</span>
-      <h2 class="section-title">Healthcare without the anxiety of lost records</h2>
-      <p class="section-desc">
-        We designed PHRlite around human empathy—so you and your family can focus on getting better, not finding lost prescriptions.
+  <!-- LIBERATION SECTION: Healthcare Liberated from the Wall of Complexities -->
+  <section id="liberation" class="liberation-section">
+    <div class="section-editorial-head">
+      <span class="editorial-tag">A Paradigm Shift</span>
+      <h2 class="editorial-title">Healthcare, finally liberated from the wall of complexities</h2>
+      <p class="editorial-subtitle">
+        For decades, our health history has been trapped behind bureaucratic silos, broken fax machines, and forgotten portal passwords. PHRlite tears down the wall.
       </p>
     </div>
 
-    <div class="benefits-grid">
-      <div class="benefit-card">
-        <div class="benefit-icon" style="background: #ecfdf5; color: #059669;">🗣️</div>
-        <h3 class="benefit-h">Never Retell Your Story</h3>
-        <p class="benefit-p">
-          No more filling out 10-page paper clipboards in waiting rooms. When you check in, your doctor immediately sees your allergies, past surgeries, and active medications in 30 seconds.
-        </p>
+    <div class="liberation-comparison-grid">
+      <!-- The Old Broken World -->
+      <div class="comparison-column column-old-world">
+        <div class="col-header">
+          <div style="font-size: 1.75rem;">⛓️</div>
+          <div>
+            <h3 style="color: #991b1b;">The Broken Silo Trap</h3>
+            <div style="font-size: 0.8rem; color: var(--ink-muted);">How traditional healthcare fails us every day</div>
+          </div>
+        </div>
+
+        <div class="point-item">
+          <div class="point-icon old-icon">📋</div>
+          <div>
+            <div class="point-heading" style="color: var(--ink-primary);">The Waiting Room Clipboard</div>
+            <div class="point-text">
+              Sitting in a germy waiting room while sick, forced to rewrite your surgeries, medications, and allergies on paper with a pen that doesn't work.
+            </div>
+          </div>
+        </div>
+
+        <div class="point-item">
+          <div class="point-icon old-icon">📠</div>
+          <div>
+            <div class="point-heading" style="color: var(--ink-primary);">The Fax Machine Prison</div>
+            <div class="point-text">
+              Hospitals refuse to share records with competitors. Patients wait 3 weeks for records to be faxed or hand-carry thick manila folders across town.
+            </div>
+          </div>
+        </div>
+
+        <div class="point-item">
+          <div class="point-icon old-icon">🔑</div>
+          <div>
+            <div class="point-heading" style="color: var(--ink-primary);">The 7-Portal Password Hell</div>
+            <div class="point-text">
+              Every hospital, diagnostic lab, and specialist has its own separate web portal. Patients forget logins, and critical lab trends are permanently scattered.
+            </div>
+          </div>
+        </div>
+
+        <div class="point-item">
+          <div class="point-icon old-icon">📄</div>
+          <div>
+            <div class="point-heading" style="color: var(--ink-primary);">The Lost Childhood</div>
+            <div class="point-text">
+              Yellow paper immunization cards get coffee-stained or lost during family relocations. Children face repeated vaccine jabs due to missing records.
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="benefit-card">
-        <div class="benefit-icon" style="background: #fef3c7; color: #d97706;">🎒</div>
-        <h3 class="benefit-h">Your Child's School Health Genesis</h3>
-        <p class="benefit-p">
-          Through our partnership with <strong>SKIDS Child Health</strong>, annual school screening checkups (Vision, Dental, Growth percentiles) are stamped directly into your child's passport, safely preserved into adulthood.
-        </p>
-      </div>
+      <!-- The Liberated Sovereign Reality -->
+      <div class="comparison-column column-liberated">
+        <div class="col-header">
+          <div style="font-size: 1.75rem;">🕊️</div>
+          <div>
+            <h3 style="color: #fef08a;">The Liberated Health Passport</h3>
+            <div style="font-size: 0.8rem; color: #a7f3d0;">One lifetime. One file. 100% in your custody.</div>
+          </div>
+        </div>
 
-      <div class="benefit-card">
-        <div class="benefit-icon" style="background: #f0f9ff; color: #0284c7;">🌍</div>
-        <h3 class="benefit-h">Zero Hospital Lock-In</h3>
-        <p class="benefit-p">
-          Switching doctors or moving cities? Your medical record travels with you in your pocket. No waiting for hospital medical records departments or paying archiving fees.
-        </p>
+        <div class="point-item">
+          <div class="point-icon new-icon">✨</div>
+          <div>
+            <div class="point-heading">1-Tap Seamless Consent</div>
+            <div class="point-text">
+              At check-in, you present a 4-hour temporary QR pass. Your clinician sees your entire 20-year history in 30 seconds. Zero clipboards.
+            </div>
+          </div>
+        </div>
+
+        <div class="point-item">
+          <div class="point-icon new-icon">🌐</div>
+          <div>
+            <div class="point-heading">Global Native Interoperability</div>
+            <div class="point-text">
+              Built on standard HL7 FHIR and SQLite. Your passport is readable by any hospital system on Earth—from Boston to Bangalore to Berlin.
+            </div>
+          </div>
+        </div>
+
+        <div class="point-item">
+          <div class="point-icon new-icon">👆</div>
+          <div>
+            <div class="point-heading">Zero Passwords • Biometric Vault</div>
+            <div class="point-text">
+              Hardware Passkeys (Face ID / Touch ID) unlock your vault. No username to remember, no corporate cloud database to be leaked.
+            </div>
+          </div>
+        </div>
+
+        <div class="point-item">
+          <div class="point-icon new-icon">🎒</div>
+          <div>
+            <div class="point-heading">Indelible School Genesis (SKIDS)</div>
+            <div class="point-text">
+              From kindergarten checkups to college entrance, school health authorities stamp verified growth and vaccination blocks directly to your child's passport.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 2: ZeroAuth Security Standards (Why Trust It) -->
-  <section id="security-standard" class="security-section">
-    <div class="section-head">
-      <span class="section-eyebrow" style="color: #6ee7b7;">Zero-Knowledge Cryptography</span>
-      <h2 class="section-title" style="color: white;">Security built on math, not corporate promises</h2>
-      <p class="section-desc" style="color: #cbd5e1;">
-        Inspired by the zero-trust standards of ZeroAuth. Only your biometrics hold the keys.
+  <!-- ZEROAUTH-GRADE SECURITY LAYER: Trust Built on Mathematics -->
+  <section id="security-trust" class="trust-security-section">
+    <div class="trust-editorial-head">
+      <span class="editorial-tag" style="color: #6ee7b7;">Zero-Knowledge Cryptography</span>
+      <h2 class="editorial-title">Trust built on mathematics, not corporate promises</h2>
+      <p class="editorial-subtitle">
+        Inspired by the zero-trust standards of ZeroAuth. Only your biological passkey holds the decryption keys.
       </p>
     </div>
 
-    <div class="security-grid">
-      <div class="sec-card">
+    <!-- Live Cryptographic Scramble Inspector -->
+    <div class="crypto-inspector-box">
+      <div class="inspector-toggle-row">
         <div>
-          <div class="sec-badge">100% OFFLINE-FIRST</div>
-          <h4 class="sec-h">Stays on Your Phone</h4>
-          <p class="sec-p">
-            Your health history is stored locally in an embedded, page-optimized SQLite database on your phone. Works with zero internet connection.
-          </p>
+          <h4><span>🔍</span> Cryptographic Zero-Knowledge Demonstration</h4>
+          <p style="font-size: 0.8rem; color: #94a3b8;">See the exact difference between what sits on your phone vs. what touches the cloud.</p>
         </div>
-        <div class="sec-visual">
-          <span>⚡ Local Vault: Active</span>
-        </div>
+        <button id="btn-crypto-toggle" class="btn-inspect-toggle">
+          👁️ Inspect What Cloudflare Actually Sees
+        </button>
       </div>
 
-      <div class="sec-card">
-        <div>
-          <div class="sec-badge">ZERO CLOUD SNOOPING</div>
-          <h4 class="sec-h">AES-256 Math Shield</h4>
-          <p class="sec-p">
-            When backed up to Cloudflare R2, your vault is scrambled into unreadable binary noise before it leaves your device. We cannot read a single byte.
-          </p>
+      <div class="inspector-display-grid">
+        <div class="display-card-pane">
+          <div class="pane-label-bar">
+            <span>Local Vault (On Your Phone)</span>
+            <span style="color: #34d399;">DECRYPTED VIA FACE ID</span>
+          </div>
+          <div style="color: #f8fafc; line-height: 1.5;">
+            {<br>
+            &nbsp;&nbsp;<span style="color: #fef08a;">"patient"</span>: "Rohan Verma",<br>
+            &nbsp;&nbsp;<span style="color: #fef08a;">"bloodGroup"</span>: "B+",<br>
+            &nbsp;&nbsp;<span style="color: #f87171;">"criticalAllergy"</span>: "Sulfa Drugs (Facial swelling)",<br>
+            &nbsp;&nbsp;<span style="color: #38bdf8;">"chronicDiagnosis"</span>: "Asthma (Mild Persistent)",<br>
+            &nbsp;&nbsp;<span style="color: #34d399;">"wearableRestingHR"</span>: "64 bpm"<br>
+            }
+          </div>
         </div>
-        <div class="sec-visual">
-          <span>🔒 Ciphertext Only (E2EE)</span>
+
+        <div class="display-card-pane" id="pane-ciphertext-view">
+          <div class="pane-label-bar">
+            <span>Cloudflare R2 Storage</span>
+            <span style="color: #38bdf8;">PURE OPAQUE NOISE</span>
+          </div>
+          <div style="color: #94a3b8; line-height: 1.5;">
+            <span style="color: #38bdf8;">// Your Phone's Decrypted Local Vault (Protected by Face ID)</span><br>
+            Tap "Inspect What Cloudflare Actually Sees" above to witness the AES-256-GCM scramble in real time.
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="sec-card">
+    <!-- Security Quad Cards -->
+    <div class="security-quad-grid">
+      <div class="quad-card">
         <div>
-          <div class="sec-badge">BIOMETRIC HARDWARE</div>
-          <h4 class="sec-h">Face ID / Touch ID</h4>
-          <p class="sec-p">
-            No passwords to be forgotten or database breaches to worry about. Hardware-backed Passkeys (FIDO2/WebAuthn) protect your passport.
+          <div class="quad-badge">100% OFFLINE FIRST</div>
+          <h4 class="quad-title">Local SQLite Engine</h4>
+          <p class="quad-desc">
+            Your entire lifetime record compiles down to a lightweight, single-file SQLite database stored on your device. Zero internet needed for clinic visits.
           </p>
         </div>
-        <div class="sec-visual">
-          <span>👆 Biometric Enclave</span>
-        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #6ee7b7;">✓ Local Storage Active</div>
       </div>
 
-      <div class="sec-card">
+      <div class="quad-card">
         <div>
-          <div class="sec-badge">CERTIFIED STAMPS</div>
-          <h4 class="sec-h">Tamper-Proof History</h4>
-          <p class="sec-p">
-            Doctor entries are cryptographically signed with their verified medical license key (Ed25519). Nobody can counterfeit or alter historical notes.
+          <div class="quad-badge">ZERO CLOUD RISKS</div>
+          <h4 class="quad-title">AES-256-GCM Encryption</h4>
+          <p class="quad-desc">
+            Encrypted client-side with a 96-bit cryptographic nonce before syncing. Even with a subpoena or a data leak, hackers only see scrambled bits.
           </p>
         </div>
-        <div class="sec-visual">
-          <span>✍️ Ed25519 Signature</span>
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #38bdf8;">✓ E2EE Cryptographic Shield</div>
+      </div>
+
+      <div class="quad-card">
+        <div>
+          <div class="quad-badge">BIOMETRIC HARDWARE</div>
+          <h4 class="quad-title">Face ID / Touch ID</h4>
+          <p class="quad-desc">
+            Protected by device Secure Enclaves (FIDO2/WebAuthn Passkeys). No passwords to steal, no SMS OTPs to be hijacked.
+          </p>
         </div>
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #fef08a;">✓ Passkey Hardware Enclave</div>
+      </div>
+
+      <div class="quad-card">
+        <div>
+          <div class="quad-badge">TAMPER PROOF</div>
+          <h4 class="quad-title">Ed25519 Doctor Stamps</h4>
+          <p class="quad-desc">
+            Clinicians digitally sign every note using their verified medical license key. You hold the record, but nobody can counterfeit historical stamps.
+          </p>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #6ee7b7;">✓ Merkle-Chain Verified</div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 3: The 3-Second Clinic Flow -->
-  <section id="clinic-flow" class="flow-section">
-    <div class="section-head">
-      <span class="section-eyebrow">Frictionless Experience</span>
-      <h2 class="section-title">How it works at your next doctor or school visit</h2>
-      <p class="section-desc">
-        Three simple steps. No app downloads required for your doctor.
+  <!-- PWA INTERACTIVE CANVAS HUB -->
+  <section id="interactive-suite" class="pwa-suite-section">
+    <div class="section-editorial-head" style="margin-bottom: 3rem;">
+      <span class="editorial-tag">Interactive Clinical Suite</span>
+      <h2 class="editorial-title">Test the experience from every perspective</h2>
+      <p class="editorial-subtitle">
+        Switch between the sovereign patient passport, the SKIDS school checkup authority, and the doctor's 1-page clinical workstation.
       </p>
     </div>
 
-    <div class="flow-steps-grid">
-      <div class="flow-step-card">
-        <div class="step-num-bubble">1</div>
-        <h3 class="step-h">1-Tap Consent Pass</h3>
-        <p class="step-p">
-          At check-in, tap "Clinic Check-In" on your phone. Show the private QR code. This issues a <strong>temporary 4-hour read pass</strong> for that specific consultation.
-        </p>
-      </div>
-
-      <div class="flow-step-card">
-        <div class="step-num-bubble">2</div>
-        <h3 class="step-h">Doctor Gets 30-Sec Clarity</h3>
-        <p class="step-p">
-          Your doctor's computer immediately opens a clean, 1-page chronological summary with active prescriptions, critical allergies, and recent wearable trends.
-        </p>
-      </div>
-
-      <div class="flow-step-card">
-        <div class="step-num-bubble">3</div>
-        <h3 class="step-h">Walk Out with an Official Stamp</h3>
-        <p class="step-p">
-          At discharge, the clinician signs their prescription and encounter note. It is automatically stamped back into your sovereign passport before you leave the parking lot.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 4: Live PWA / Interactive Clinical Hub -->
-  <section id="pwa-hub" class="live-pwa-section">
-    <div class="section-head" style="margin-bottom: 2.5rem;">
-      <span class="section-eyebrow">Interactive Clinical Sandbox</span>
-      <h2 class="section-title">Test the experience from every perspective</h2>
-      <p class="section-desc">
-        See how the patient passport, school screening team, and doctor's workstation collaborate seamlessly.
-      </p>
-    </div>
-
-    <div class="pwa-interactive-container">
-      <div class="pwa-top-bar">
-        <div style="font-weight: 800; font-size: 1rem; color: var(--primary-navy); display: flex; align-items: center; gap: 0.5rem;">
-          <span>🕹️</span> Live Demonstration Hub
+    <div class="suite-frame-container">
+      <div class="suite-tab-nav">
+        <div style="font-weight: 800; font-size: 1.05rem; color: var(--forest-deep); display: flex; align-items: center; gap: 0.6rem;">
+          <span>🕹️</span> Live Demonstration Suite
         </div>
-        <div class="pwa-pill-switch">
-          <button class="switch-btn active" data-target="view-passport">📱 Patient Passport</button>
-          <button class="switch-btn" data-target="view-skids">🎒 SKIDS School Camp</button>
-          <button class="switch-btn" data-target="view-copilot">🩺 Doctor Copilot</button>
+        <div class="suite-tab-pills">
+          <button class="tab-pill-btn active" data-target="pane-suite-family">👨‍👩‍👧 Family Passport</button>
+          <button class="tab-pill-btn" data-target="pane-suite-skids">🎒 SKIDS School Screening</button>
+          <button class="tab-pill-btn" data-target="pane-suite-copilot">🩺 Doctor Copilot</button>
         </div>
       </div>
 
-      <div class="pwa-main-canvas">
+      <div class="suite-canvas-content">
         
-        <!-- VIEW 1: PATIENT PASSPORT DETAILS -->
-        <div id="view-passport" class="pwa-view-pane" style="display: block;">
-          <div style="max-width: 720px; margin: 0 auto;">
-            <div style="background: var(--bg-warm); border: 1px solid var(--border-warm); border-radius: var(--radius-lg); padding: 2rem;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <!-- PANE 1: FAMILY PASSPORT VIEW -->
+        <div id="pane-suite-family" class="suite-pane-view" style="display: block;">
+          <div style="max-width: 800px; margin: 0 auto;">
+            <div style="background: var(--bg-parchment); border: 1px solid var(--border-warm); border-radius: var(--radius-lg); padding: 2.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                 <div>
-                  <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--primary-navy);">Rohan Verma's Sovereign Passport</h3>
-                  <div style="font-size: 0.85rem; color: var(--text-muted);">Master Passport ID: PASSPORT-IND-2026-9812</div>
+                  <h3 style="font-size: 1.5rem; font-family: var(--font-serif); color: var(--forest-deep);">Rohan Verma's Sovereign Vault</h3>
+                  <div style="font-size: 0.85rem; color: var(--ink-muted);">Passport ID: PASSPORT-IND-2026-9812 • Verified Ed25519 Ledger</div>
                 </div>
-                <button class="btn-pill-primary" onclick="showDoctorQRModal()">
+                <button class="btn-nav-primary" onclick="showPassModal()">
                   🏁 Generate Doctor QR Pass
                 </button>
               </div>
 
-              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="background: white; border: 1px solid var(--border-warm); padding: 1rem; border-radius: var(--radius-sm);">
-                  <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Blood Type</div>
-                  <div style="font-size: 1.2rem; font-weight: 800; color: #dc2626;">B Positive</div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 2rem;">
+                <div style="background: white; border: 1px solid var(--border-warm); padding: 1.25rem; border-radius: var(--radius-sm);">
+                  <div style="font-size: 0.72rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.5px;">Blood Group</div>
+                  <div style="font-size: 1.4rem; font-weight: 800; color: var(--crimson-alert);">B Positive</div>
                 </div>
-                <div style="background: white; border: 1px solid var(--border-warm); padding: 1rem; border-radius: var(--radius-sm);">
-                  <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Resting HR (7-Day)</div>
-                  <div style="font-size: 1.2rem; font-weight: 800; color: #059669;">64 bpm</div>
+                <div style="background: white; border: 1px solid var(--border-warm); padding: 1.25rem; border-radius: var(--radius-sm);">
+                  <div style="font-size: 0.72rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.5px;">Resting Heart Rate</div>
+                  <div style="font-size: 1.4rem; font-weight: 800; color: var(--forest-emerald);">64 bpm (7-Day)</div>
                 </div>
-                <div style="background: white; border: 1px solid var(--border-warm); padding: 1rem; border-radius: var(--radius-sm);">
-                  <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Storage Cost</div>
-                  <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary-navy);">$0.00 / yr</div>
+                <div style="background: white; border: 1px solid var(--border-warm); padding: 1.25rem; border-radius: var(--radius-sm);">
+                  <div style="font-size: 0.72rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.5px;">Annual Storage Cost</div>
+                  <div style="font-size: 1.4rem; font-weight: 800; color: var(--forest-deep);">$0.00 / yr</div>
                 </div>
               </div>
 
-              <div style="background: white; border: 1px solid var(--border-warm); border-radius: var(--radius-md); padding: 1.25rem;">
-                <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.5rem;">🚨 Documented Drug Allergies</h4>
-                <div style="color: #b91c1c; font-weight: 700; font-size: 0.88rem;">
+              <div style="background: white; border: 1px solid var(--border-warm); border-radius: var(--radius-md); padding: 1.5rem;">
+                <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 0.6rem; color: var(--forest-deep);">🚨 Critical Documented Allergies</h4>
+                <div style="color: var(--crimson-alert); font-weight: 700; font-size: 0.95rem;">
                   • Sulfa Drugs (HIGH Criticality) — Severe rash, facial edema.
                 </div>
-                <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.3rem;">
-                  Stamped by Dr. Watson on 2018-04-12 • Ed25519 Verified
+                <div style="font-size: 0.78rem; color: var(--ink-muted); margin-top: 0.4rem;">
+                  Stamped by Dr. Watson on 2018-04-12 • Cryptographically Locked & Untamperable
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- VIEW 2: SKIDS SCHOOL CAMP -->
-        <div id="view-skids" class="pwa-view-pane" style="display: none;">
-          <div style="max-width: 680px; margin: 0 auto;">
-            <div style="background: var(--bg-warm); border: 1px solid var(--border-warm); border-radius: var(--radius-lg); padding: 2rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
-                <div style="width: 44px; height: 44px; background: #fef3c7; color: #b45309; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">🎒</div>
+        <!-- PANE 2: SKIDS SCHOOL SCREENING PORTAL -->
+        <div id="pane-suite-skids" class="suite-pane-view" style="display: none;">
+          <div style="max-width: 720px; margin: 0 auto;">
+            <div style="background: var(--bg-parchment); border: 1px solid var(--border-warm); border-radius: var(--radius-lg); padding: 2.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.75rem;">
+                <div style="width: 48px; height: 48px; background: var(--amber-light); color: var(--amber-burnished); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem;">🎒</div>
                 <div>
-                  <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--primary-navy);">SKIDS School Screening Portal</h3>
-                  <div style="font-size: 0.8rem; color: var(--text-muted);">Certified Pediatric Onboarding Authority</div>
+                  <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--forest-deep);">SKIDS School Health Camp</h3>
+                  <div style="font-size: 0.85rem; color: var(--ink-muted);">Certified Pediatric Onboarding Authority</div>
                 </div>
               </div>
 
-              <form onsubmit="submitSkidsChildScreening(event)">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <form onsubmit="submitSkidsFromHub(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
                   <div>
                     <label style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Child Name</label>
-                    <input type="text" id="skids-in-name" value="Aarav Sharma" style="width: 100%; padding: 0.55rem; border-radius: 6px; border: 1px solid var(--border-subtle); margin-top: 0.25rem;">
+                    <input type="text" id="hub-skids-name" value="Aarav Sharma" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--border-subtle); margin-top: 0.3rem;">
                   </div>
                   <div>
-                    <label style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Grade & Section</label>
-                    <input type="text" id="skids-in-grade" value="Grade 4-B" style="width: 100%; padding: 0.55rem; border-radius: 6px; border: 1px solid var(--border-subtle); margin-top: 0.25rem;">
+                    <label style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Grade & School</label>
+                    <input type="text" id="hub-skids-grade" value="Grade 4-B @ Greenwood High" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--border-subtle); margin-top: 0.3rem;">
                   </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
                   <div>
                     <label style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Height (cm)</label>
-                    <input type="number" id="skids-in-ht" value="138" style="width: 100%; padding: 0.55rem; border-radius: 6px; border: 1px solid var(--border-subtle); margin-top: 0.25rem;">
+                    <input type="number" id="hub-skids-ht" value="138" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--border-subtle); margin-top: 0.3rem;">
                   </div>
                   <div>
                     <label style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Weight (kg)</label>
-                    <input type="number" id="skids-in-wt" value="32.5" style="width: 100%; padding: 0.55rem; border-radius: 6px; border: 1px solid var(--border-subtle); margin-top: 0.25rem;">
+                    <input type="number" id="hub-skids-wt" value="32.5" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--border-subtle); margin-top: 0.3rem;">
                   </div>
                   <div>
                     <label style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Vision Acuity</label>
-                    <input type="text" id="skids-in-vision" value="6/6 (Normal)" style="width: 100%; padding: 0.55rem; border-radius: 6px; border: 1px solid var(--border-subtle); margin-top: 0.25rem;">
+                    <input type="text" id="hub-skids-vision" value="6/6 (Normal)" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--border-subtle); margin-top: 0.3rem;">
                   </div>
                 </div>
 
-                <button type="submit" class="btn-pill-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem; font-size: 0.95rem;">
-                  ✍️ Sign & Stamp Child's Genesis Passport
+                <button type="submit" class="btn-hero-main" style="width: 100%; justify-content: center; font-size: 1rem;">
+                  ✍️ Sign & Stamp Child's Genesis Passport (Ed25519)
                 </button>
               </form>
 
-              <div id="skids-success-alert" style="display: none; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 1rem; border-radius: 12px; margin-top: 1.25rem; font-size: 0.85rem; color: #065f46;"></div>
+              <div id="hub-skids-success" style="display: none; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 1.25rem; border-radius: 12px; margin-top: 1.5rem; font-size: 0.88rem; color: #065f46;"></div>
             </div>
           </div>
         </div>
 
-        <!-- VIEW 3: DOCTOR COPILOT -->
-        <div id="view-copilot" class="pwa-view-pane" style="display: none;">
-          <div style="max-width: 820px; margin: 0 auto;">
-            <div style="background: var(--bg-warm); border: 1px solid var(--border-warm); border-radius: var(--radius-lg); padding: 2rem;">
-              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-warm); padding-bottom: 0.75rem; margin-bottom: 1.25rem;">
+        <!-- PANE 3: DOCTOR COPILOT WORKSTATION -->
+        <div id="pane-suite-copilot" class="suite-pane-view" style="display: none;">
+          <div style="max-width: 860px; margin: 0 auto;">
+            <div style="background: var(--bg-parchment); border: 1px solid var(--border-warm); border-radius: var(--radius-lg); padding: 2.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-warm); padding-bottom: 1rem; margin-bottom: 1.5rem;">
                 <div>
-                  <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--primary-navy);">Doctor's 1-Page Clinical Glance</h3>
-                  <div id="copilot-view-header" style="font-size: 0.82rem; color: var(--text-muted);">Loading patient...</div>
+                  <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--forest-deep);">Doctor's 1-Page Situational Glance</h3>
+                  <div id="suite-copilot-header" style="font-size: 0.85rem; color: var(--ink-muted);">Loading patient...</div>
                 </div>
-                <span style="font-size: 0.72rem; background: #ecfdf5; color: #065f46; padding: 3px 10px; border-radius: 9999px; font-weight: 800;">
+                <span style="font-size: 0.72rem; background: #ecfdf5; color: #065f46; padding: 4px 12px; border-radius: 9999px; font-weight: 800; border: 1px solid #a7f3d0;">
                   ED25519 VERIFIED
                 </span>
               </div>
 
-              <!-- Critical Allergies Alert -->
-              <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 0.85rem 1rem; margin-bottom: 1.25rem;">
-                <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #b91c1c; margin-bottom: 0.25rem;">🚨 Critical Documented Allergies</div>
-                <ul id="copilot-view-allergies" style="list-style: none;"></ul>
+              <!-- Critical Allergies -->
+              <div style="background: var(--crimson-subtle); border: 1px solid #fecaca; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
+                <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--crimson-alert); margin-bottom: 0.3rem;">🚨 Critical Documented Allergies</div>
+                <ul id="suite-copilot-allergies" style="list-style: none;"></ul>
               </div>
 
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
-                <div style="background: white; border: 1px solid var(--border-warm); padding: 1rem; border-radius: 8px;">
-                  <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">📋 Chronic Conditions</div>
-                  <ul id="copilot-view-conditions" style="list-style: none;"></ul>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.75rem;">
+                <div style="background: white; border: 1px solid var(--border-warm); padding: 1.25rem; border-radius: 10px;">
+                  <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.5rem;">📋 Chronic Problem List</div>
+                  <ul id="suite-copilot-problems" style="list-style: none; font-size: 0.88rem;"></ul>
                 </div>
-                <div style="background: white; border: 1px solid var(--border-warm); padding: 1rem; border-radius: 8px;">
-                  <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">💊 Current Daily Meds</div>
-                  <ul id="copilot-view-meds" style="list-style: none;"></ul>
+                <div style="background: white; border: 1px solid var(--border-warm); padding: 1.25rem; border-radius: 10px;">
+                  <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.5rem;">💊 Active Prescriptions</div>
+                  <ul id="suite-copilot-meds" style="list-style: none; font-size: 0.88rem;"></ul>
                 </div>
               </div>
 
-              <!-- Interactive Rx Checker & SOAP Note -->
-              <div style="background: white; border: 1px solid var(--border-warm); padding: 1.25rem; border-radius: 8px;">
-                <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--primary-navy); margin-bottom: 0.8rem;">Clinical Note & Prescription Safety Guardrail</h4>
+              <!-- Prescription Safety & SOAP Committing -->
+              <div style="background: white; border: 1px solid var(--border-warm); padding: 1.5rem; border-radius: 12px;">
+                <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--forest-deep); margin-bottom: 1rem;">Clinical Discharge Note & Drug Safety Check</h4>
                 
-                <div style="margin-bottom: 0.75rem;">
+                <div style="margin-bottom: 1rem;">
                   <label style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Assessment</label>
-                  <input type="text" id="copilot-input-assessment" value="Acute Upper Respiratory Checkup" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border-subtle); margin-top: 0.2rem;">
+                  <input type="text" id="suite-copilot-assessment" value="Acute Upper Respiratory Checkup" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--border-subtle); margin-top: 0.3rem;">
                 </div>
 
-                <div style="margin-bottom: 0.75rem;">
-                  <label style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Prescribe Drug (Try typing "Bactrim" to test allergy check)</label>
-                  <input type="text" id="copilot-input-rx" placeholder="Type medication name..." style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border-subtle); margin-top: 0.2rem;">
+                <div style="margin-bottom: 1rem;">
+                  <label style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Prescribe Medication (Try typing "Bactrim" to test allergy contraindication)</label>
+                  <input type="text" id="suite-copilot-rx" placeholder="Type medication name..." style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--border-subtle); margin-top: 0.3rem;">
                 </div>
 
-                <div id="copilot-rx-alert" style="display: none; background: #fef2f2; border: 1px solid #f87171; color: #991b1b; padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; margin-bottom: 0.75rem;"></div>
+                <div id="suite-copilot-alert" style="display: none; background: var(--crimson-subtle); border: 1px solid #f87171; color: var(--crimson-alert); padding: 0.85rem; border-radius: 8px; font-size: 0.85rem; margin-bottom: 1rem;"></div>
 
-                <button id="copilot-btn-sign" class="btn-pill-primary" style="width: 100%; justify-content: center;">
+                <button id="suite-copilot-sign-btn" class="btn-hero-main" style="width: 100%; justify-content: center; font-size: 1rem;">
                   ✍️ Sign Discharge Commit (Dr. Emily Watson, MD)
                 </button>
               </div>
@@ -476,79 +574,79 @@
   <!-- Modals -->
 
   <!-- 1. Doctor QR Consultation Pass Modal -->
-  <div id="modal-doctor-qr" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
+  <div id="pass-modal-view" class="modal-overlay" style="display: none;">
+    <div class="modal-sheet">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--primary-navy);">Clinic Check-In Pass</h3>
-        <button onclick="closeDoctorQRModal()" style="background: none; border: none; font-size: 1.6rem; cursor: pointer;">&times;</button>
+        <h3 style="font-size: 1.3rem; font-family: var(--font-serif); color: var(--forest-deep);">Doctor Consultation Pass</h3>
+        <button onclick="closePassModal()" style="background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--ink-muted);">&times;</button>
       </div>
-      <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
-        Show this QR to your doctor's workstation. Grants a <strong>4-hour temporary read pass</strong> with zero permanent hospital server storage.
+      <p style="font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.55;">
+        Present this to your clinician's workstation. Issues an ephemeral <strong>4-hour temporary read pass</strong> with zero permanent hospital server storage.
       </p>
 
-      <div class="qr-placeholder" style="background: white; border: 2px dashed #059669; color: var(--primary-navy); padding: 1.5rem; border-radius: 18px; margin: 1.5rem auto; width: 220px; height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div style="background: white; border: 2px dashed var(--forest-emerald); color: var(--forest-deep); padding: 1.5rem; border-radius: 20px; margin: 1.5rem auto; width: 220px; height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🏁</div>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: #064e3b;">TOKEN-ROHAN-VERMA</div>
-        <div style="font-size: 0.68rem; color: #059669; margin-top: 0.3rem;">✓ Face ID Verified</div>
+        <div style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700;">PASS-ROHAN-9812</div>
+        <div style="font-size: 0.7rem; color: var(--forest-emerald); margin-top: 0.3rem;">✓ Face ID Authenticated</div>
       </div>
 
-      <button class="btn-pill-primary" onclick="closeDoctorQRModal()" style="width: 100%; justify-content: center;">
+      <button class="btn-hero-main" onclick="closePassModal()" style="width: 100%; justify-content: center;">
         Done
       </button>
     </div>
   </div>
 
-  <!-- 2. Emergency Medical Card Modal -->
-  <div id="modal-emergency-card" class="modal-overlay" style="display: none;">
-    <div class="modal-content" style="text-align: left;">
+  <!-- 2. Emergency Medical ID Modal -->
+  <div id="med-id-modal-view" class="modal-overlay" style="display: none;">
+    <div class="modal-sheet">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem;">
           <span style="font-size: 1.5rem;">🚨</span>
-          <h3 style="font-size: 1.2rem; font-weight: 800; color: #b91c1c;">Emergency Medical ID</h3>
+          <h3 style="font-size: 1.3rem; font-family: var(--font-serif); color: var(--crimson-alert);">Emergency Medical ID</h3>
         </div>
-        <button onclick="closeEmergencyCardModal()" style="background: none; border: none; font-size: 1.6rem; cursor: pointer;">&times;</button>
+        <button onclick="closeMedicalIdModal()" style="background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--ink-muted);">&times;</button>
       </div>
 
-      <div style="background: var(--bg-sand); padding: 1.25rem; border-radius: 12px; margin-bottom: 1.25rem;">
-        <div style="margin-bottom: 0.6rem;">
-          <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Patient Name</span>
-          <div id="emergency-modal-name" style="font-weight: 800; font-size: 1.1rem;">Rohan Verma</div>
+      <div style="background: var(--bg-sand); padding: 1.5rem; border-radius: 14px; margin-bottom: 1.5rem;">
+        <div style="margin-bottom: 0.75rem;">
+          <span style="font-size: 0.72rem; color: var(--ink-muted); text-transform: uppercase;">Patient Name</span>
+          <div id="modal-field-name" style="font-weight: 800; font-size: 1.2rem; color: var(--ink-primary);">Rohan Verma</div>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.6rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
           <div>
-            <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Blood Group</span>
-            <div id="emergency-modal-blood" style="font-weight: 800; color: #dc2626; font-size: 1.1rem;">B+</div>
+            <span style="font-size: 0.72rem; color: var(--ink-muted); text-transform: uppercase;">Blood Group</span>
+            <div id="modal-field-blood" style="font-weight: 800; color: var(--crimson-alert); font-size: 1.2rem;">B+</div>
           </div>
           <div>
-            <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Emergency Contact</span>
-            <div id="emergency-modal-contact" style="font-size: 0.8rem; font-weight: 700;">Priya Verma (+91 98765 43210)</div>
+            <span style="font-size: 0.72rem; color: var(--ink-muted); text-transform: uppercase;">Emergency Contact</span>
+            <div id="modal-field-contact" style="font-size: 0.85rem; font-weight: 700; color: var(--ink-primary);">Priya Verma (+91 98765 43210)</div>
           </div>
         </div>
         <div>
-          <span style="font-size: 0.72rem; color: #b91c1c; text-transform: uppercase; font-weight: 800;">Critical Allergies</span>
-          <div id="emergency-modal-allergies" style="font-weight: 800; color: #b91c1c; font-size: 0.88rem;">Sulfa Drugs (Severe facial swelling)</div>
+          <span style="font-size: 0.72rem; color: var(--crimson-alert); text-transform: uppercase; font-weight: 800;">Critical Allergies</span>
+          <div id="modal-field-allergies" style="font-weight: 800; color: var(--crimson-alert); font-size: 0.95rem;">Sulfa Drugs (Severe facial swelling)</div>
         </div>
       </div>
 
-      <button class="btn-pill-secondary" onclick="closeEmergencyCardModal()" style="width: 100%; justify-content: center;">
+      <button class="btn-hero-alt" onclick="closeMedicalIdModal()" style="width: 100%; justify-content: center;">
         Close Medical ID
       </button>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem;">
-        <div class="brand-icon-box" style="width: 32px; height: 32px; font-size: 1rem;">🛂</div>
-        <div style="font-weight: 800; font-size: 1.15rem; color: var(--primary-navy);">PHRlite</div>
-        <span style="color: var(--text-light); font-size: 0.85rem;">• The Sovereign Health Passport</span>
+  <!-- Editorial Footer -->
+  <footer class="editorial-footer">
+    <div class="footer-content-wrap">
+      <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.25rem;">
+        <div class="brand-emblem" style="width: 34px; height: 34px; font-size: 1rem;">🛂</div>
+        <div style="font-family: var(--font-sans); font-weight: 800; font-size: 1.25rem; color: var(--forest-deep);">PHRlite</div>
+        <span style="color: var(--ink-muted); font-size: 0.9rem;">• The Sovereign Health Passport</span>
       </div>
-      <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 580px; line-height: 1.6; margin-bottom: 1.5rem;">
+      <p style="font-size: 0.95rem; color: var(--ink-muted); max-width: 620px; line-height: 1.65; margin-bottom: 2rem;">
         An open-source standard for lifetime medical records. Free for life, self-sovereign, and verified with Git-like commits.<br>
-        Deployed on <a href="https://phrlite.greybrain.in" style="color: var(--accent-emerald); font-weight: 700; text-decoration: none;">phrlite.greybrain.in</a> • Built with pride for families and doctors.
+        Deployed on <a href="https://phrlite.greybrain.in" style="color: var(--forest-emerald); font-weight: 700; text-decoration: none;">phrlite.greybrain.in</a> • Built with pride for families and clinicians.
       </p>
-      <div style="font-size: 0.75rem; color: var(--text-light);">
+      <div style="font-size: 0.8rem; color: var(--ink-faint);">
         © 2026 PHRlite Open Protocol • Zero-Knowledge Architecture
       </div>
     </div>
