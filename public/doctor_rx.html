@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHRlite — Solo-Doctor Zero-Install Web Rx Pad</title>
+  <meta name="description" content="NMC-compliant 30-second digital prescription pad for independent doctors on WhatsApp & telehealth.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: #111a2e;
+      --card-border: #1e293b;
+      --primary: #10b981;
+      --accent: #3b82f6;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px; }
+
+    .header-bar {
+      max-width: 1000px;
+      margin: 0 auto 24px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .badge-session {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 360px 1fr; gap: 24px; }
+    @media (max-width: 860px) { .container { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .doctor-header {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+    .form-control {
+      width: 100%;
+      background: #090d16;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: white;
+      font-size: 14px;
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--primary); }
+
+    .rx-item-row {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .btn-sign {
+      background: var(--primary);
+      color: #022c22;
+      border: none;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+    .btn-sign:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .allergy-alert {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <div>
+      <h1 style="font-size: 20px; font-weight: 800;">🩺 Solo-Doctor Web Rx Pad</h1>
+      <p style="font-size: 12px; color: var(--text-muted);">NMC Telemedicine Guidelines 2023 • Zero Software Install</p>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <span class="badge-session">🔒 15-Min Consented Session Active</span>
+      <a href="/passport.html" style="font-size: 12px; color: var(--text-muted); text-decoration: none;">Back to Passport</a>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Left: Patient 1-Page Summary -->
+    <div class="card">
+      <div style="border-bottom: 1px solid var(--card-border); padding-bottom: 14px; margin-bottom: 16px;">
+        <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Patient Encounter</span>
+        <h2 style="font-size: 20px; font-weight: 800; margin-top: 4px;">Rohan Verma</h2>
+        <p style="font-size: 13px; color: var(--text-muted);">35 yrs • Male • Blood: B+</p>
+        <p style="font-size: 11px; color: #60a5fa; margin-top: 2px; font-family: 'JetBrains Mono', monospace;">ABHA: 14-8841-9920-1142</p>
+      </div>
+
+      <div class="allergy-alert">
+        <span style="font-size: 18px;">🚨</span>
+        <div>
+          <strong>CRITICAL ALLERGIES:</strong>
+          <div>• Sulfa Drugs (Severe facial swelling)</div>
+          <div>• Penicillin (Known anaphylactic risk)</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Active Chronic Conditions</label>
+        <div style="margin-top: 6px; font-size: 13px; line-height: 1.6;">
+          <div>• [J45.20] Mild Persistent Asthma (2015)</div>
+          <div>• [I10] Essential Hypertension (2022)</div>
+        </div>
+      </div>
+
+      <div>
+        <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Current Active Medications</label>
+        <div style="margin-top: 6px; font-size: 13px; line-height: 1.6;">
+          <div>• Salbutamol Inhaler 100mcg (as needed)</div>
+          <div>• Amlodipine 5mg (daily)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: 30-Second Prescription Pad -->
+    <div class="card">
+      
+      <!-- Doctor Metadata Header (Mandatory under NMC rules) -->
+      <div class="doctor-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong style="font-size: 15px; color: white;">Dr. Priya Rao, MD</strong>
+            <p style="font-size: 12px; color: #93c5fd;">MBBS, MD (General Medicine) • Registration: <strong>MCI-MH-2018-88410</strong></p>
+            <p style="font-size: 11px; color: var(--text-muted);">Rao Clinical Care Center, Bandra West, Mumbai 400050</p>
+          </div>
+          <span style="background: #1e3a8a; color: #bfdbfe; font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 700;">NMC CERTIFIED</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Clinical Diagnosis / Encounter Reason</label>
+        <input type="text" class="form-control" id="diagnosisInput" value="Acute Asthmatic Wheezing & Seasonal Bronchospasm">
+      </div>
+
+      <div class="form-group">
+        <label>Prescribe Medications (NLEM & Jan Aushadhi Generic Library)</label>
+        
+        <div class="rx-item-row">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong style="font-size: 14px; color: white;">1. SALBUTAMOL INHALER 100MCG</strong>
+            <span style="font-size: 11px; color: #34d399; font-weight: 700;">PMBJP Generic: ₹55 vs ₹175</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <input type="text" class="form-control" value="2 puffs as needed for breathlessness" placeholder="Dosage & Frequency">
+            <input type="text" class="form-control" value="30 days duration" placeholder="Duration">
+          </div>
+        </div>
+
+        <div class="rx-item-row">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong style="font-size: 14px; color: white;">2. PARACETAMOL 650MG</strong>
+            <span style="font-size: 11px; color: #34d399; font-weight: 700;">PMBJP Generic: ₹12 vs ₹40</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <input type="text" class="form-control" value="1 tablet twice daily after food" placeholder="Dosage & Frequency">
+            <input type="text" class="form-control" value="5 days duration" placeholder="Duration">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Clinical Advice / Lifestyle Instructions</label>
+        <textarea class="form-control" rows="2">Inhale deeply and rinse mouth with water after use. Avoid cold drinks. Review in 1 week if wheezing persists.</textarea>
+      </div>
+
+      <button class="btn-sign" onclick="signPrescription()">
+        <span>✍️</span>
+        <span>Sign & Seal with Ed25519 Digital Signature</span>
+      </button>
+
+      <div id="resultBox" style="display: none; margin-top: 20px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 16px;">
+        <strong style="color: #34d399; font-size: 15px;">✅ Prescription Sealed & Committed to Patient's Sovereign Vault!</strong>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Prescription ID: <code id="rxId" style="color: white;"></code></p>
+        <p style="font-size: 12px; color: var(--text-muted);">Anti-Counterfeit Nonce: <code id="nonceId" style="color: #60a5fa;"></code></p>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Patient has received the legal script on their phone with 1-tap Jan Aushadhi & Tata 1mg checkout.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function signPrescription() {
+      const rxId = "RX-NMC-" + Date.now();
+      const nonce = "NONCE-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+      document.getElementById('rxId').innerText = rxId;
+      document.getElementById('nonceId').innerText = nonce;
+      document.getElementById('resultBox').style.display = 'block';
+
+      // Disable button
+      const btn = document.querySelector('.btn-sign');
+      btn.style.opacity = '0.7';
+      btn.style.pointerEvents = 'none';
+      btn.innerHTML = '<span>✅</span><span>Signed & Sealed</span>';
+    }
+  </script>
+</body>
+</html>

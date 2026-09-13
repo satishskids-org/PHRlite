@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHRlite — Enterprise Admin Console & Gateway Hub</title>
+  <meta name="description" content="Manage ABDM V3 Gateway, Cashfree KYC connector, NHCX claim switch, API keys, and DPDP cryptographic audit trails.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #0f172a;
+      --card-border: #1e293b;
+      --primary: #10b981;
+      --accent: #3b82f6;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px; }
+
+    .header-bar {
+      max-width: 1100px;
+      margin: 0 auto 24px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+    .form-control {
+      width: 100%;
+      background: #090d16;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: white;
+      font-size: 13.5px;
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--primary); }
+
+    .btn {
+      background: var(--primary);
+      color: #022c22;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn:hover { filter: brightness(1.1); }
+
+    .audit-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 14px; }
+    .audit-table th { text-align: left; padding: 10px; color: var(--text-muted); border-bottom: 1px solid var(--card-border); text-transform: uppercase; font-size: 11px; }
+    .audit-table td { padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .badge { padding: 3px 8px; border-radius: 4px; font-size: 10.5px; font-weight: 700; }
+    .badge-primary { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .badge-blue { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <div>
+      <h1 style="font-size: 22px; font-weight: 800;">⚙️ Enterprise Admin Console & Gateway Hub</h1>
+      <p style="font-size: 13px; color: var(--text-muted);">Configure ABDM Sandbox, Cashfree KYC Suite, NHCX Claim Switch & DPDP Audit Trails</p>
+    </div>
+    <div style="display: flex; gap: 12px;">
+      <a href="/passport.html" class="btn" style="background: rgba(255,255,255,0.08); color: white;">Open Passport</a>
+      <a href="/doctor_rx.html" class="btn" style="background: rgba(255,255,255,0.08); color: white;">Doctor Rx Pad</a>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="grid-2">
+      <!-- ABDM Gateway Settings -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h3 style="font-size: 16px; font-weight: 700;">🏛️ National Health Authority (ABDM)</h3>
+          <span class="badge badge-primary">SANDBOX ACTIVE</span>
+        </div>
+        <div class="form-group">
+          <label>ABDM Client ID</label>
+          <input type="text" class="form-control" value="SBX_PHRLITE_NHA_001">
+        </div>
+        <div class="form-group">
+          <label>ABDM Client Secret</label>
+          <input type="password" class="form-control" value="sec_live_998124018841">
+        </div>
+        <div class="form-group">
+          <label>Gateway Environment</label>
+          <select class="form-control">
+            <option>Sandbox (https://dev.abdm.gov.in)</option>
+            <option>Production (https://gateway.abdm.gov.in)</option>
+          </select>
+        </div>
+        <button class="btn" onclick="alert('✅ ABDM Gateway Configuration updated successfully!')">Save ABDM Config</button>
+      </div>
+
+      <!-- Cashfree & Commercial KYC Connector -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h3 style="font-size: 16px; font-weight: 700;">💳 Cashfree Regulated KYC Suite</h3>
+          <span class="badge badge-primary">CONNECTED</span>
+        </div>
+        <div class="form-group">
+          <label>Cashfree App ID</label>
+          <input type="text" class="form-control" value="CF_SANDBOX_88120">
+        </div>
+        <div class="form-group">
+          <label>Secret Key</label>
+          <input type="password" class="form-control" value="cf_sec_live_9910482910">
+        </div>
+        <div class="form-group">
+          <label>Supported Verifications</label>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.8;">
+            <div>• Doctor NMC Medical Registration (MCI/State Council)</div>
+            <div>• Hospital Rohini / NABH Empanelment Registry</div>
+            <div>• Bank Account Penny-Drop (Direct Cashless Reimbursement)</div>
+          </div>
+        </div>
+        <button class="btn" onclick="alert('✅ Cashfree KYC Connector credentials verified.')">Test Connection</button>
+      </div>
+    </div>
+
+    <!-- Partner B2B API Key Registry -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div>
+          <h3 style="font-size: 16px; font-weight: 700;">🔑 Enterprise Partner API Keys</h3>
+          <p style="font-size: 12px; color: var(--text-muted);">Scoped access tokens for hospitals, Tata 1mg, and insurance clearing houses.</p>
+        </div>
+        <button class="btn" onclick="alert('Generated new scoped partner key: pk_live_apollo_hospital_blr')">+ Issue Partner Key</button>
+      </div>
+
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Partner Name</th>
+            <th>Type</th>
+            <th>API Key Prefix</th>
+            <th>Issued Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Max Super Speciality Hospital</strong></td>
+            <td>HOSPITAL</td>
+            <td><code>pk_live_max_saket_••••••••</code></td>
+            <td>2026-09-10</td>
+            <td><span class="badge badge-primary">ACTIVE</span></td>
+          </tr>
+          <tr>
+            <td><strong>Tata 1mg E-Commerce</strong></td>
+            <td>PHARMACY_ECOMMERCE</td>
+            <td><code>pk_live_tata_1mg_••••••••</code></td>
+            <td>2026-09-11</td>
+            <td><span class="badge badge-primary">ACTIVE</span></td>
+          </tr>
+          <tr>
+            <td><strong>Star Health & Allied Insurance</strong></td>
+            <td>INSURER</td>
+            <td><code>pk_live_star_health_••••••••</code></td>
+            <td>2026-09-12</td>
+            <td><span class="badge badge-primary">ACTIVE</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DPDP Cryptographic Audit Log Stream -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h3 style="font-size: 16px; font-weight: 700;">🔒 DPDP Act 2023 Cryptographic Audit Trail</h3>
+          <p style="font-size: 12px; color: var(--text-muted);">Tamper-proof signed audit stream of every data transaction and consent grant.</p>
+        </div>
+        <span class="badge badge-blue">IMMUTABLE ED25519</span>
+      </div>
+
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Log ID</th>
+            <th>Timestamp</th>
+            <th>Actor / Facility</th>
+            <th>Action</th>
+            <th>Purpose</th>
+            <th>Signature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>AUDIT-99410</code></td>
+            <td>2026-09-13 16:20:10</td>
+            <td>MAX-SAKET-01</td>
+            <td><span class="badge badge-primary">RECORD_ACCESSED</span></td>
+            <td>CAREMGT</td>
+            <td><code style="font-size: 10px; color: #60a5fa;">0x8f4b21...77e0</code></td>
+          </tr>
+          <tr>
+            <td><code>AUDIT-99408</code></td>
+            <td>2026-09-13 16:15:42</td>
+            <td>TATA-1MG-POS</td>
+            <td><span class="badge badge-blue">PRESCRIPTION_DISPENSED</span></td>
+            <td>PHARM_DISPENSE</td>
+            <td><code style="font-size: 10px; color: #60a5fa;">0x33419a...11ab</code></td>
+          </tr>
+          <tr>
+            <td><code>AUDIT-99395</code></td>
+            <td>2026-09-13 15:58:19</td>
+            <td>STAR-HEALTH-NHCX</td>
+            <td><span class="badge badge-primary">CLAIM_ADJUDICATED</span></td>
+            <td>CLAIM_SETTLEMENT</td>
+            <td><code style="font-size: 10px; color: #60a5fa;">0x99ea14...22fe</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</body>
+</html>

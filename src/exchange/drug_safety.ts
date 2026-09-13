@@ -183,3 +183,43 @@ export function checkPrescriptionSafety(
     warnings,
   };
 }
+
+export class DrugSafetyChecker {
+  public static checkContraindication(drugName: string, patientAllergies: string[]): { safe: boolean; alertMessage?: string } {
+    const res = checkPrescriptionSafety(drugName, patientAllergies);
+    return {
+      safe: res.isSafe,
+      alertMessage: res.warnings[0]
+    };
+  }
+
+  public static findJanAushadhiEquivalent(drugName: string) {
+    const res = checkPrescriptionSafety(drugName, []);
+    if (res.matchedDrug && res.matchedDrug.janAushadhiGeneric) {
+      const g = res.matchedDrug.janAushadhiGeneric;
+      return {
+        available: true,
+        genericEquivalent: {
+          genericName: res.matchedDrug.genericName,
+          janAushadhiPriceInr: g.genericPriceINR,
+          brandedPriceInr: g.brandedAvgPriceINR,
+          potentialSavingsInr: g.brandedAvgPriceINR - g.genericPriceINR,
+          savingsPercent: g.savingsPercent
+        }
+      };
+    }
+    return { available: false };
+  }
+
+  public static lookupNlemCeilingPrice(drugName: string) {
+    const res = checkPrescriptionSafety(drugName, []);
+    if (res.matchedDrug && res.matchedDrug.isNLEM) {
+      return {
+        isControlled: true,
+        ceilingPriceInr: res.matchedDrug.janAushadhiGeneric?.brandedAvgPriceINR || 50
+      };
+    }
+    return { isControlled: false };
+  }
+}
+

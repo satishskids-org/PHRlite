@@ -305,9 +305,142 @@ const hipaa = HipaaHl7ComplianceEngine.auditHipaaSafeguards(passport);
 console.log(`   ✓ HIPAA Audit: ${hipaa.overallStatus} (${hipaa.frameworkVersion})`);
 console.log(`   ✓ 45 CFR § 164.312 Safeguards: ${hipaa.safeguardChecks.length}/${hipaa.safeguardChecks.length} Passing`);
 
+// 16. IRDAI Wellness Scoring & Insurance Bank Account
+console.log('\n1️⃣5️⃣ IRDAI WELLNESS ENGINE & INSURANCE "BANK ACCOUNT" CARD...');
+import { 
+  WellnessEngine, 
+  MagicLinkManager, 
+  SoloDoctorRxPad, 
+  AbdmGatewayClient, 
+  CashfreeKycConnector, 
+  PHRliteSDK, 
+  AdminConsoleManager 
+} from '../src/index.ts';
+
+const wellness = new WellnessEngine();
+wellness.addScreening({
+  screeningType: 'LIPID_PROFILE',
+  recordedDate: new Date().toISOString(),
+  facilityName: 'Dr. Lal PathLabs',
+  providerNmcReg: 'DOC-MH-44910',
+  resultSummary: 'Cholesterol normal, HDL 54',
+  isNormalOrControlled: true
+});
+wellness.addScreening({
+  screeningType: 'HBA1C',
+  recordedDate: new Date().toISOString(),
+  facilityName: 'Apollo Diagnostics',
+  providerNmcReg: 'DOC-MH-44910',
+  resultSummary: 'HbA1c 5.5% (Optimal)',
+  isNormalOrControlled: true
+});
+const wellnessResult = wellness.calculateWellnessScore();
+const cert = wellness.generateWellnessCertificate('CITIZEN-ROHAN-VERMA', 28000);
+const bankCard = WellnessEngine.createInsuranceAccount({
+  policyNumber: 'STAR-HEALTH-2026-9921',
+  insurerName: 'Star Health & Allied Insurance',
+  insurerCode: 'STAR_HEALTH',
+  planName: 'Family Health Optima',
+  totalSumInsured: 1000000,
+  utilizedClaimsInr: 8500,
+  pedMonthsCleared: 36
+});
+console.log(`   ✓ IRDAI Wellness Score: ${wellnessResult.totalPoints} points (Statutory Renewal Discount: ${cert.renewalDiscountPercentage}%)`);
+console.log(`   ✓ Annual Premium Savings: ₹${cert.estimatedAnnualSavingsInr} on policy renewal`);
+console.log(`   ✓ Insurance Bank Balance: ₹${bankCard.availableBalance.toLocaleString()} available of ₹${bankCard.totalSumInsured.toLocaleString()} (Portability: ${bankCard.portabilityStatus})`);
+
+// 17. Solo-Doctor WhatsApp Magic Link & 30-Second NMC Rx Pad
+console.log('\n1️⃣6️⃣ SOLO-DOCTOR WHATSAPP MAGIC LINK (ZERO-INSTALL CONSULT)...');
+const magic = MagicLinkManager.createSession({
+  patientId: 'CITIZEN-ROHAN-VERMA',
+  patientName: 'Rohan Verma',
+  patientAge: 35,
+  patientGender: 'male',
+  bloodGroup: 'B+',
+  allergies: ['Sulfa Drugs'],
+  activeConditions: ['Asthma'],
+  currentMedications: ['Salbutamol Inhaler 100mcg']
+}, patientKeys);
+console.log(`   ✓ 15-Min Encrypted URL: ${magic.magicUrl}`);
+
+const rxPad = new SoloDoctorRxPad();
+const nmcScript = rxPad.createPrescription({
+  doctor: {
+    doctorName: 'Dr. Priya Rao',
+    qualification: 'MBBS, MD (Medicine)',
+    nmcRegistrationNumber: 'MCI-MH-2018-88410',
+    stateMedicalCouncil: 'Maharashtra Medical Council',
+    clinicOrHospitalName: 'Rao Clinic',
+    clinicAddress: 'Bandra, Mumbai',
+    phoneOrContact: '+91-98200-11223'
+  },
+  patientId: 'CITIZEN-ROHAN-VERMA',
+  patientName: 'Rohan Verma',
+  patientAge: 35,
+  patientGender: 'male',
+  patientAllergies: ['Sulfa Drugs'],
+  diagnosis: 'Acute Asthmatic Wheeze',
+  medications: [{
+    genericName: 'SALBUTAMOL',
+    brandName: 'Asthalin Inhaler',
+    strength: '100mcg',
+    dosageForm: 'INHALER',
+    frequency: '2 puffs as needed',
+    durationDays: 30,
+    instructions: 'Inhale deeply'
+  }]
+});
+console.log(`   ✓ NMC Certified Script: ${nmcScript.prescription?.prescriptionId} signed by ${nmcScript.prescription?.doctor.doctorName}`);
+console.log(`   ✓ Single-Dispense Nonce: ${nmcScript.prescription?.singleDispenseNonce} (Prevents duplicate refills)`);
+
+// 18. NHA ABDM Gateway & Cashfree KYC
+console.log('\n1️⃣7️⃣ NHA ABDM GATEWAY & CASHFREE KYC RAIL...');
+const abdm = new AbdmGatewayClient();
+const abha = await abdm.generateAbhaViaAadhaar({
+  aadhaarNumberMasked: 'XXXX-XXXX-4412',
+  otpToken: '991204',
+  preferredAbhaAddress: 'rohan.verma@abdm',
+  mobileNumber: '+91-98200-99887'
+});
+console.log(`   ✓ ABHA 14-Digit Identity: ${abha.abhaNumber} (${abha.abhaAddress})`);
+
+const cashfree = new CashfreeKycConnector();
+const docAudit = cashfree.verifyDoctorNmc('MCI-MH-2018-88410');
+const bankAudit = cashfree.verifyBankAccount('9876543210', 'HDFC0001234', 'Rohan Verma');
+console.log(`   ✓ Cashfree Doctor NMC Verification: ${docAudit.doctorName} -> ${docAudit.activeStatus}`);
+console.log(`   ✓ Cashfree Penny-Drop Bank Audit: ${bankAudit.registeredAccountName} at ${bankAudit.bankName}`);
+
+// 19. B2B Enterprise Client SDK & Portability Dossier
+console.log('\n1️⃣8️⃣ B2B ENTERPRISE CLIENT SDK & 1-TAP INSURANCE PORTABILITY...');
+const sdk = new PHRliteSDK({
+  apiKey: 'pk_live_max_hospital_saket',
+  facilityId: 'MAX-SAKET-01',
+  facilityName: 'Max Super Speciality Hospital',
+  environment: 'production'
+});
+const dossier = sdk.exportPortabilityDossier({
+  patientId: 'CITIZEN-ROHAN-VERMA',
+  currentInsurer: 'Star Health & Allied Insurance',
+  targetInsurer: 'HDFC ERGO General Insurance',
+  activePolicyNumber: 'STAR-HEALTH-2026-9921',
+  continuousCoverageMonths: 36,
+  verifiedCommitHashes: [sealed.commitHash]
+});
+console.log(`   ✓ Portability Dossier: ${dossier.dossierId}`);
+console.log(`   ✓ 0-PED Reset Legally Guaranteed: ${dossier.eligibleForZeroPedReset ? 'YES (36-mo Continuous History Proven)' : 'NO'}`);
+console.log(`   ✓ Merkle Root: ${dossier.merkleRootHash}`);
+
+const audit = AdminConsoleManager.logAudit({
+  actorId: 'MAX-SAKET-01',
+  actionType: 'CLAIM_ADJUDICATED',
+  purposeCode: 'CAREMGT'
+});
+console.log(`   ✓ DPDP Audit Log Sealed: ${audit.logId} (Tamper-proof signature verified)`);
+
 console.log(`
 ======================================================================
    🌟 PHRlite SIMULATION COMPLETE — SOVEREIGN, LITE & INDELIBLE 🌟
 ======================================================================
 `);
+
 

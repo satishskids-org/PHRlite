@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHRlite — Sovereign Health Passport & Passbook</title>
+  <meta name="description" content="Your sovereign health passport with rotating dynamic cryptograms, insurance bank balance, and IRDAI wellness savings.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #0f172a;
+      --card-border: #1e293b;
+      --card-hover: #17233f;
+      --primary: #10b981;
+      --primary-glow: rgba(16, 185, 129, 0.2);
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.2);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+    /* Top Nav (Shadcn App Shell) */
+    .top-nav {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .brand-badge { background: var(--primary); color: #022c22; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+    .nav-actions { display: flex; align-items: center; gap: 16px; }
+    .status-pill { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--primary); background: var(--primary-glow); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 8px var(--primary); }
+
+    /* Dual-Pane Chatbot Layout (Shadcn Chatbot Template) */
+    .app-shell {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      flex: 1;
+      height: calc(100vh - 61px);
+    }
+    @media (max-width: 960px) {
+      .app-shell { grid-template-columns: 1fr; height: auto; }
+      .chat-pane { border-right: none !important; border-bottom: 1px solid var(--card-border); min-height: 500px; }
+    }
+
+    /* Left Pane: Conversational Intake Assistant */
+    .chat-pane {
+      background: #0b1120;
+      border-right: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chat-header h2 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .msg { display: flex; flex-direction: column; max-width: 85%; }
+    .msg-bot { align-self: flex-start; }
+    .msg-user { align-self: flex-end; }
+    .msg-bubble {
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+    .msg-bot .msg-bubble { background: var(--card); border: 1px solid var(--card-border); color: var(--text); border-bottom-left-radius: 4px; }
+    .msg-user .msg-bubble { background: var(--accent); color: white; border-bottom-right-radius: 4px; }
+    .msg-time { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+    .chat-input-box {
+      padding: 16px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input-box input {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: white;
+      font-size: 13px;
+      outline: none;
+    }
+    .chat-input-box input:focus { border-color: var(--primary); }
+    .chat-btn-send {
+      background: var(--primary);
+      border: none;
+      color: #022c22;
+      font-weight: 700;
+      padding: 0 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Right Pane: Artifact & Passport Canvas */
+    .canvas-pane {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      overflow-y: auto;
+    }
+    .tab-bar {
+      display: flex;
+      background: rgba(15, 23, 42, 0.6);
+      border-bottom: 1px solid var(--card-border);
+      padding: 8px 24px;
+      gap: 8px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .tab-btn.active { color: white; background: var(--card); box-shadow: 0 2px 8px rgba(0,0,0,0.3); border: 1px solid var(--card-border); }
+    .tab-btn.active span { color: var(--primary); }
+
+    .canvas-content {
+      padding: 24px;
+      flex: 1;
+    }
+
+    /* Cards */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 1100px) { .grid-2 { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Dynamic Rotating Cryptogram Card */
+    .qr-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .qr-box {
+      width: 200px;
+      height: 200px;
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .qr-box svg { width: 100%; height: 100%; }
+    .countdown-ring {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .pulse-ring {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+
+    /* Insurance Bank Account Card */
+    .bank-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .bank-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .balance-display { font-size: 32px; font-weight: 800; color: #60a5fa; letter-spacing: -0.5px; margin: 8px 0; }
+    .stat-row { display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .badge-success { background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+
+    /* Action Buttons */
+    .btn-action {
+      background: var(--primary);
+      color: #022c22;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-action:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid var(--card-border);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+    .tag-allergy {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Modal / Magic Link Banner */
+    .magic-link-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="top-nav">
+    <a href="/" class="nav-brand">
+      <div style="font-size: 22px;">🛂</div>
+      <div>
+        <strong>PHRlite</strong>
+        <span class="brand-badge">Sovereign Vault</span>
+      </div>
+    </a>
+    <div class="nav-actions">
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        <span>Zero-Knowledge E2EE • Local SQLite</span>
+      </div>
+      <a href="/doctor_rx.html" class="btn-action btn-secondary" style="font-size: 12px; padding: 6px 12px;">Doctor Rx Pad</a>
+      <a href="/admin.html" class="btn-action btn-secondary" style="font-size: 12px; padding: 6px 12px;">Admin Console</a>
+    </div>
+  </header>
+
+  <!-- Dual-Pane App Shell -->
+  <div class="app-shell">
+
+    <!-- Left: Conversational Intake Assistant -->
+    <div class="chat-pane">
+      <div class="chat-header">
+        <h2><span>🤖</span> Health Assistant</h2>
+        <span style="font-size: 11px; color: var(--text-muted);">Encrypted Stream</span>
+      </div>
+      <div class="messages-container" id="chatMessages">
+        <div class="msg msg-bot">
+          <div class="msg-bubble">
+            Hello! I am your sovereign intake assistant. Any symptoms or vitals you share are stored locally in your private SQLite ledger and encrypted with your passkey. How can I help you today?
+          </div>
+          <span class="msg-time">Just now</span>
+        </div>
+      </div>
+      <div class="chat-input-box">
+        <input type="text" id="chatInput" placeholder="Describe symptoms or ask about medications..." onkeydown="if(event.key==='Enter') sendMessage()">
+        <button class="chat-btn-send" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <!-- Right: Artifact Canvas (Health Passport, Insurance, Prescriptions, Wellness) -->
+    <div class="canvas-pane">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('passport', this)"><span>🪪</span> Passport</button>
+        <button class="tab-btn" onclick="switchTab('insurance', this)"><span>🛡️</span> Insurance Bank</button>
+        <button class="tab-btn" onclick="switchTab('rx', this)"><span>💊</span> Active Prescriptions</button>
+        <button class="tab-btn" onclick="switchTab('wellness', this)"><span>🌿</span> IRDAI Wellness (20%)</button>
+        <button class="tab-btn" onclick="switchTab('whatsapp', this)"><span>⚡</span> Solo-Doctor Link</button>
+      </div>
+
+      <div class="canvas-content" id="canvasArea">
+        <!-- Content dynamically rendered by JS below -->
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // State
+    const patientState = {
+      name: "Rohan Verma",
+      age: 35,
+      gender: "Male",
+      bloodGroup: "B+",
+      abhaNumber: "14-8841-9920-1142",
+      allergies: ["Sulfa Drugs", "Penicillin"],
+      chronicConditions: ["Mild Persistent Asthma", "Essential Hypertension"],
+      activeMedications: [
+        { name: "Salbutamol Inhaler 100mcg", dose: "2 puffs as needed", priceBranded: 175, priceGeneric: 55, savingsPercent: 68 },
+        { name: "Amlodipine 5mg", dose: "1 tab daily", priceBranded: 65, priceGeneric: 14, savingsPercent: 78 }
+      ],
+      insurance: {
+        policyNumber: "STAR-HEALTH-2026-9921",
+        insurer: "Star Health & Allied Insurance",
+        plan: "Comprehensive Family Floater",
+        totalSumInsured: 1000000,
+        availableBalance: 920000,
+        noClaimBonus: 50000,
+        pedMonths: 36,
+        portabilityStatus: "PORTABLE_NO_PED_RESET"
+      },
+      wellnessScore: 115,
+      renewalDiscountPercent: 20
+    };
+
+    let activeTab = 'passport';
+    let countdownSec = 30;
+
+    function switchTab(tab, btn) {
+      activeTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      renderCanvas();
+    }
+
+    function renderCanvas() {
+      const canvas = document.getElementById('canvasArea');
+      
+      if (activeTab === 'passport') {
+        canvas.innerHTML = `
+          <div class="grid-2">
+            <!-- Rotating Cryptogram Card -->
+            <div class="card qr-card">
+              <h3 style="font-size: 16px; font-weight: 700;">Dynamic Encounter Cryptogram</h3>
+              <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Single-use Visa/UPI-grade QR refreshing every 30 seconds</p>
+              
+              <div class="qr-box">
+                <svg viewBox="0 0 100 100" fill="#0f172a">
+                  <!-- Simulated QR Pattern -->
+                  <rect x="10" y="10" width="24" height="24" fill="#0f172a" rx="4"/>
+                  <rect x="14" y="14" width="16" height="16" fill="white" rx="2"/>
+                  <rect x="18" y="18" width="8" height="8" fill="#0f172a"/>
+                  <rect x="66" y="10" width="24" height="24" fill="#0f172a" rx="4"/>
+                  <rect x="70" y="14" width="16" height="16" fill="white" rx="2"/>
+                  <rect x="74" y="18" width="8" height="8" fill="#0f172a"/>
+                  <rect x="10" y="66" width="24" height="24" fill="#0f172a" rx="4"/>
+                  <rect x="14" y="70" width="16" height="16" fill="white" rx="2"/>
+                  <rect x="18" y="74" width="8" height="8" fill="#0f172a"/>
+                  <!-- Data Dots -->
+                  <rect x="42" y="18" width="6" height="6" fill="#10b981"/>
+                  <rect x="52" y="24" width="6" height="6" fill="#0f172a"/>
+                  <rect x="42" y="36" width="16" height="6" fill="#0f172a"/>
+                  <rect x="42" y="50" width="8" height="8" fill="#10b981"/>
+                  <rect x="56" y="60" width="12" height="6" fill="#0f172a"/>
+                  <rect x="42" y="74" width="20" height="8" fill="#0f172a"/>
+                  <rect x="70" y="74" width="12" height="12" fill="#10b981"/>
+                </svg>
+              </div>
+
+              <div class="countdown-ring">
+                <div class="pulse-ring"></div>
+                <span>Refreshes in <span id="secCount">${countdownSec}</span>s • Anti-Replay Active</span>
+              </div>
+              <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px; font-family: 'JetBrains Mono', monospace;">
+                Nonce: 0x${Math.random().toString(16).substring(2, 10).toUpperCase()} • Ed25519 Signed
+              </p>
+            </div>
+
+            <!-- Identity & Clinical Summary -->
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <h3 style="font-size: 20px; font-weight: 800;">${patientState.name}</h3>
+                  <p style="font-size: 13px; color: var(--text-muted);">${patientState.age} yrs • ${patientState.gender} • Blood: <strong>${patientState.bloodGroup}</strong></p>
+                  <p style="font-size: 12px; color: #60a5fa; margin-top: 4px; font-family: 'JetBrains Mono', monospace;">ABHA: ${patientState.abhaNumber}</p>
+                </div>
+                <span class="badge-success">Sovereign Master</span>
+              </div>
+
+              <div style="margin-top: 20px;">
+                <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Critical Allergies</label>
+                <div style="margin-top: 8px; display: flex; gap: 8px;">
+                  ${patientState.allergies.map(a => `<span class="tag-allergy">⚠️ ${a}</span>`).join('')}
+                </div>
+              </div>
+
+              <div style="margin-top: 20px;">
+                <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Chronic Diagnoses (ICD-10)</label>
+                <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
+                  ${patientState.chronicConditions.map(c => `
+                    <div style="font-size: 13px; background: rgba(255,255,255,0.03); padding: 6px 12px; border-radius: 6px; border-left: 3px solid var(--accent);">
+                      ${c}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div style="margin-top: 20px;">
+                <button class="btn-action" onclick="switchTab('whatsapp')">⚡ Share 15-Min Doctor Link</button>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (activeTab === 'insurance') {
+        canvas.innerHTML = `
+          <div class="card bank-card">
+            <div class="bank-card-header">
+              <div>
+                <span style="font-size: 12px; color: #93c5fd; font-weight: 700; text-transform: uppercase;">Health Insurance Bank Account</span>
+                <h3 style="font-size: 22px; font-weight: 800; color: white; margin-top: 4px;">${patientState.insurance.insurer}</h3>
+                <p style="font-size: 12px; color: var(--text-muted);">${patientState.insurance.plan} • Policy: ${patientState.insurance.policyNumber}</p>
+              </div>
+              <span class="badge-success">IRDAI 2024 COMPLIANT</span>
+            </div>
+
+            <div style="margin: 20px 0;">
+              <span style="font-size: 13px; color: var(--text-muted);">Available Cashless Balance</span>
+              <div class="balance-display">₹${patientState.insurance.availableBalance.toLocaleString()}</div>
+              <span style="font-size: 12px; color: var(--text-muted);">Total Statutory Sum Insured: ₹${patientState.insurance.totalSumInsured.toLocaleString()}</span>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.25); border-radius: 8px; padding: 12px; margin-bottom: 20px;">
+              <div class="stat-row">
+                <span style="color: var(--text-muted);">Cumulative No-Claim Bonus (NCB)</span>
+                <strong>₹${patientState.insurance.noClaimBonus.toLocaleString()}</strong>
+              </div>
+              <div class="stat-row">
+                <span style="color: var(--text-muted);">Pre-Existing Disease (PED) Waiting Period</span>
+                <span style="color: #34d399; font-weight: 700;">${patientState.insurance.pedMonths} Months Cleared (0-Reset)</span>
+              </div>
+              <div class="stat-row">
+                <span style="color: var(--text-muted);">Portability Protection (IRDAI Sec 13)</span>
+                <span class="badge-success">GUARANTEED PORTABLE</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+              <button class="btn-action" onclick="alert('⚡ Instant Cashless Pre-Auth Request generated and verified via NHCX FHIR Switch!')">⚡ 1-Tap Cashless Pre-Auth</button>
+              <button class="btn-action btn-secondary" onclick="alert('📄 IRDAI Portability Dossier exported: Proves 36-month continuous coverage to HDFC ERGO / Care Health with zero waiting period reset.')">📄 Export Portability Dossier</button>
+            </div>
+          </div>
+        `;
+      } else if (activeTab === 'rx') {
+        canvas.innerHTML = `
+          <div class="card">
+            <h3 style="font-size: 18px; font-weight: 800;">Active Prescriptions & Jan Aushadhi Generic Savings</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Direct generic price arbitrage under National List of Essential Medicines (NLEM 2022)</p>
+
+            <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
+              ${patientState.activeMedications.map(m => `
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <h4 style="font-size: 16px; font-weight: 700;">${m.name}</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">Dose: ${m.dose}</p>
+                    <div style="margin-top: 8px; font-size: 12px;">
+                      <span style="color: var(--text-muted); text-decoration: line-through;">Branded MRP: ₹${m.priceBranded}</span>
+                      <span style="color: #34d399; font-weight: 700; margin-left: 10px;">PMBJP Generic: ₹${m.priceGeneric} (Save ${m.savingsPercent}%)</span>
+                    </div>
+                  </div>
+                  <button class="btn-action" style="font-size: 12px; padding: 8px 14px;" onclick="alert('🛒 1-Tap Checkout placed on Tata 1mg! Prescribed by Dr. Priya Rao, MD. Delivery in 4 hours.')">🛒 1-Tap 1mg Order</button>
+                </div>
+              `).join('')}
+            </div>
+
+            <div style="margin-top: 24px; padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px;">
+              <strong style="color: #34d399;">💡 Total Monthly Generic Savings: ₹240 / month</strong>
+              <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Zero quality compromise: chemically and clinically bio-equivalent under Indian Pharmacopoeia standards.</p>
+            </div>
+          </div>
+        `;
+      } else if (activeTab === 'wellness') {
+        canvas.innerHTML = `
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <span style="font-size: 12px; color: #34d399; font-weight: 700;">IRDAI WELLNESS & PREVENTIVE REBATE ENGINE</span>
+                <h3 style="font-size: 24px; font-weight: 800; margin-top: 4px;">Statutory 20% Renewal Premium Discount</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">IRDAI Guidelines on Wellness and Preventive Features (2020)</p>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 32px; font-weight: 800; color: #34d399;">115 pts</div>
+                <span class="badge-success">MAX REBATE TIER</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px; background: rgba(255,255,255,0.03); border-radius: 10px; padding: 16px;">
+              <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px;">Verified Clinical Screenings Completed:</h4>
+              <div class="stat-row">
+                <span>🧪 Lipid Profile (Dr. Lal PathLabs) - Cholesterol & Triglycerides Normal</span>
+                <span style="color: #34d399; font-weight: 700;">+40 pts</span>
+              </div>
+              <div class="stat-row">
+                <span>🩸 HbA1c Glycemic Marker (SRL Diagnostics) - 5.6% Optimal</span>
+                <span style="color: #34d399; font-weight: 700;">+40 pts</span>
+              </div>
+              <div class="stat-row">
+                <span>❤️ Blood Pressure Check (Apollo Clinic) - 118/76 mmHg</span>
+                <span style="color: #34d399; font-weight: 700;">+35 pts</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 18px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong style="color: white; font-size: 16px;">Direct Cash Savings: ₹5,000 / year</strong>
+                <p style="font-size: 12px; color: #a7f3d0; margin-top: 2px;">Applied automatically to your ₹25,000 annual family policy renewal.</p>
+              </div>
+              <button class="btn-action" onclick="alert('✅ Cryptographically signed IRDAI Wellness Certificate generated and dispatched to Star Health!')">📜 Dispatch Certificate</button>
+            </div>
+          </div>
+        `;
+      } else if (activeTab === 'whatsapp') {
+        canvas.innerHTML = `
+          <div class="card">
+            <h3 style="font-size: 20px; font-weight: 800;">⚡ Solo-Doctor WhatsApp Magic Link</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+              Single doctors struggle with complex hospital EMRs. Generate a 15-minute, zero-knowledge consented link for your doctor on WhatsApp.
+            </p>
+
+            <div class="magic-link-banner">
+              <div>
+                <strong style="font-size: 14px;">https://phrlite.in/rx/tkn_demo_9821a</strong>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Doctor opens link on any phone/laptop. Zero install. 100% legal NMC e-prescription returned.</p>
+              </div>
+              <a href="/doctor_rx.html" class="btn-action">Open Doctor View</a>
+            </div>
+
+            <div style="margin-top: 24px;">
+              <h4 style="font-size: 14px; font-weight: 700;">How It Protects Both You and Your Doctor:</h4>
+              <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-top: 10px; padding-left: 20px;">
+                <li>Doctor sees your full 1-page history (allergies, meds) without 10-page WhatsApp PDF clutter.</li>
+                <li>Prescription contains mandatory NMC registration details, eliminating medical malpractice risk.</li>
+                <li>Generic Jan Aushadhi alternatives are auto-suggested to save you up to 80% on medications.</li>
+                <li>Link auto-expires in 15 minutes, ensuring total privacy under DPDP Act 2023.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Chatbot simulation
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if(!text) return;
+
+      const container = document.getElementById('chatMessages');
+      
+      // User message
+      const userDiv = document.createElement('div');
+      userDiv.className = 'msg msg-user';
+      userDiv.innerHTML = `<div class="msg-bubble">${text}</div><span class="msg-time">Just now</span>`;
+      container.appendChild(userDiv);
+      input.value = '';
+
+      // Bot simulated response
+      setTimeout(() => {
+        const botDiv = document.createElement('div');
+        botDiv.className = 'msg msg-bot';
+        let reply = "I've noted that. Storing this symptom as an encrypted observation in your local SQLite container.";
+        if (text.toLowerCase().includes('insurance') || text.toLowerCase().includes('policy')) {
+          reply = "Your Star Health Family Floater policy is active with ₹9,20,000 available balance. 36 months of pre-existing disease waiting period are fully cleared, making it 100% portable under IRDAI regulations!";
+          switchTab('insurance');
+        } else if (text.toLowerCase().includes('saving') || text.toLowerCase().includes('generic') || text.toLowerCase().includes('medicine')) {
+          reply = "You can save up to ₹240/month by choosing PMBJP Jan Aushadhi generic equivalents for your Salbutamol and Amlodipine prescriptions!";
+          switchTab('rx');
+        } else if (text.toLowerCase().includes('doctor') || text.toLowerCase().includes('whatsapp')) {
+          reply = "You can generate a 15-minute secure Magic Link to send to your doctor on WhatsApp right here!";
+          switchTab('whatsapp');
+        }
+        botDiv.innerHTML = `<div class="msg-bubble">${reply}</div><span class="msg-time">Just now</span>`;
+        container.appendChild(botDiv);
+        container.scrollTop = container.scrollHeight;
+      }, 500);
+
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Timer for rotating cryptogram
+    setInterval(() => {
+      countdownSec--;
+      if (countdownSec <= 0) {
+        countdownSec = 30;
+      }
+      const el = document.getElementById('secCount');
+      if (el) el.innerText = countdownSec;
+    }, 1000);
+
+    // Initial render
+    renderCanvas();
+  </script>
+</body>
+</html>

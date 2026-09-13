@@ -476,6 +476,247 @@ assert.strictEqual(fhirAudit.valid, true);
 assert.ok(fhirAudit.resourceCount >= 4);
 console.log(`   ✅ HL7 FHIR R4 Audit: Validated ${fhirAudit.resourceCount} resources (${fhirAudit.validatedResourceTypes.join(', ')})\n`);
 
-console.log('🎉 ALL 16 TEST SUITES PASSED! PHRlite is fully operational, secure, interoperable, and compliant.\n');
+// 17. Test IRDAI Wellness Engine & Insurance "Bank Balance" Card
+console.log('17. Testing IRDAI Wellness Engine & Insurance "Bank Balance" Model...');
+import { 
+  WellnessEngine,
+  MagicLinkManager,
+  SoloDoctorRxPad,
+  AbdmGatewayClient,
+  CashfreeKycConnector,
+  PHRliteSDK,
+  AdminConsoleManager
+} from '../src/index.ts';
+
+const wellnessEngine = new WellnessEngine();
+wellnessEngine.addScreening({
+  screeningType: 'LIPID_PROFILE',
+  recordedDate: new Date().toISOString(),
+  facilityName: 'Dr. Lal PathLabs',
+  providerNmcReg: 'DOC-MH-44910',
+  resultSummary: 'Total Cholesterol: 185 mg/dL, HDL: 52 mg/dL, Triglycerides: 140 mg/dL',
+  isNormalOrControlled: true
+});
+wellnessEngine.addScreening({
+  screeningType: 'HBA1C',
+  recordedDate: new Date().toISOString(),
+  facilityName: 'SRL Diagnostics',
+  providerNmcReg: 'DOC-MH-44910',
+  resultSummary: 'HbA1c: 5.6% (Non-Diabetic)',
+  isNormalOrControlled: true
+});
+wellnessEngine.addScreening({
+  screeningType: 'BLOOD_PRESSURE',
+  recordedDate: new Date().toISOString(),
+  facilityName: 'Apollo Clinic',
+  providerNmcReg: 'DOC-MH-44910',
+  resultSummary: '118/76 mmHg',
+  isNormalOrControlled: true
+});
+
+const wellnessScore = wellnessEngine.calculateWellnessScore();
+assert.ok(wellnessScore.totalPoints >= 100);
+assert.strictEqual(wellnessScore.discountPercentage, 20); // Max 20% under IRDAI 2020 rules
+
+const certificate = wellnessEngine.generateWellnessCertificate('PAT-JOHN-DOE-001', 25000);
+assert.strictEqual(certificate.renewalDiscountPercentage, 20);
+assert.strictEqual(certificate.estimatedAnnualSavingsInr, 5000);
+assert.ok(certificate.signature.length > 0);
+console.log(`   ✅ IRDAI Wellness Score: ${wellnessScore.totalPoints} pts (Eligible for ${wellnessScore.discountPercentage}% renewal discount)`);
+console.log(`   ✅ Signed Wellness Certificate: ${certificate.certificateId} (Saves ₹${certificate.estimatedAnnualSavingsInr}/year on ₹25k premium)`);
+
+const insuranceAccount = WellnessEngine.createInsuranceAccount({
+  policyNumber: '0123/SH/2026/8841',
+  insurerName: 'Star Health & Allied Insurance',
+  insurerCode: 'STAR_HEALTH',
+  planName: 'Comprehensive Family Floater',
+  totalSumInsured: 1000000,
+  utilizedClaimsInr: 80000,
+  pedMonthsCleared: 36
+});
+assert.strictEqual(insuranceAccount.availableBalance, 920000);
+assert.strictEqual(insuranceAccount.portabilityStatus, 'PORTABLE_NO_PED_RESET');
+console.log(`   ✅ Insurance Bank Balance: ₹${insuranceAccount.availableBalance.toLocaleString()} available of ₹${insuranceAccount.totalSumInsured.toLocaleString()} (Portability: ${insuranceAccount.portabilityStatus})\n`);
+
+// 18. Test Solo-Doctor 15-Minute Consented "Magic Link" Session
+console.log('18. Testing Solo-Doctor Consented Magic Link Session (Zero Install WhatsApp Consult)...');
+const magicPatientKeys = generateEd25519KeyPair();
+const magicSession = MagicLinkManager.createSession({
+  patientId: 'PAT-JOHN-DOE-001',
+  patientName: 'John Doe',
+  patientAge: 38,
+  patientGender: 'male',
+  bloodGroup: 'O+',
+  allergies: ['Penicillin'],
+  activeConditions: ['Essential Hypertension'],
+  currentMedications: ['Amlodipine 5mg']
+}, magicPatientKeys);
+
+assert.ok(magicSession.magicUrl.includes('/rx/'));
+assert.ok(magicSession.expiresAt > Date.now());
+
+const accessed = MagicLinkManager.accessSession(magicSession.sessionId);
+assert.strictEqual(accessed.valid, true);
+assert.strictEqual(accessed.patientSummary?.patientName, 'John Doe');
+assert.strictEqual(accessed.patientSummary?.allergies[0], 'Penicillin');
+
+const docKeys = generateEd25519KeyPair();
+const consultationSubmit = MagicLinkManager.submitDoctorEncounter(magicSession.sessionId, {
+  doctorName: 'Dr. Ramesh Gupta',
+  doctorNmcRegistration: 'NMC-KA-2015-11029',
+  doctorClinicAddress: 'Gupta Family Health Clinic, Indiranagar, Bengaluru',
+  consultationNotes: 'Patient experiencing productive cough and mild chest tightness for 3 days.',
+  prescriptionItems: [
+    {
+      genericName: 'AZITHROMYCIN',
+      brandNameSuggestion: 'Azee 500mg',
+      dosage: '500mg',
+      frequency: '1-0-0 (Once daily for 3 days)',
+      duration: '3 days',
+      instructions: 'Take 1 hour before or 2 hours after meals.',
+      isJanAushadhiAvailable: true,
+      estimatedGenericSavingsInr: 72
+    }
+  ]
+}, docKeys);
+
+assert.strictEqual(consultationSubmit.success, true);
+assert.ok(consultationSubmit.encounterReceipt?.doctorSignature);
+console.log(`   ✅ Magic Link Generated: ${magicSession.magicUrl} (Valid for 15 mins)`);
+console.log(`   ✅ Doctor accessed without login, reviewed clinical history, and signed certified prescription.\n`);
+
+// 19. Test NMC-Compliant 30-Second Web Rx Pad
+console.log('19. Testing NMC-Compliant 30-Second Web Rx Pad with Jan Aushadhi Generic Savings...');
+const rxPad = new SoloDoctorRxPad();
+const nmcRxResult = rxPad.createPrescription({
+  doctor: {
+    doctorName: 'Dr. Priya Rao',
+    qualification: 'MBBS, MD (General Medicine)',
+    nmcRegistrationNumber: 'MCI-MH-2018-88410',
+    stateMedicalCouncil: 'Maharashtra Medical Council',
+    clinicOrHospitalName: 'Rao Clinical Care Center',
+    clinicAddress: 'Bandra West, Mumbai 400050',
+    phoneOrContact: '+91-98200-11223'
+  },
+  patientId: 'PAT-JOHN-DOE-001',
+  patientName: 'John Doe',
+  patientAge: 38,
+  patientGender: 'male',
+  patientAllergies: ['Penicillin'],
+  diagnosis: 'Acute Bronchitis',
+  medications: [
+    {
+      genericName: 'Salbutamol',
+      brandName: 'Asthalin Inhaler',
+      strength: '100mcg',
+      dosageForm: 'INHALER',
+      frequency: '2 puffs as needed',
+      durationDays: 30,
+      instructions: 'Inhale 2 puffs when experiencing wheezing or tightness.'
+    },
+    {
+      genericName: 'Paracetamol',
+      brandName: 'Dolo 650',
+      strength: '650mg',
+      dosageForm: 'TABLET',
+      frequency: '1-0-1 as needed for fever',
+      durationDays: 5,
+      instructions: 'Take after meals. Do not exceed 3 tablets in 24 hours.'
+    }
+  ]
+});
+
+assert.strictEqual(nmcRxResult.success, true);
+assert.ok(nmcRxResult.prescription);
+assert.strictEqual(nmcRxResult.prescription?.doctor.doctorName, 'Dr. Priya Rao');
+assert.strictEqual(nmcRxResult.prescription?.items[0].genericName, 'SALBUTAMOL');
+assert.ok(nmcRxResult.prescription?.singleDispenseNonce.startsWith('NONCE-'));
+console.log(`   ✅ NMC Prescription Created: ${nmcRxResult.prescription?.prescriptionId}`);
+console.log(`   ✅ Mandatory NMC Doctor Reg: ${nmcRxResult.prescription?.doctor.nmcRegistrationNumber} (${nmcRxResult.prescription?.doctor.qualification})`);
+console.log(`   ✅ Anti-Counterfeit Single-Dispense Nonce: ${nmcRxResult.prescription?.singleDispenseNonce}\n`);
+
+// 20. Test NHA ABDM Gateway Adapter (Milestones 1, 2, 3)
+console.log('20. Testing NHA ABDM Gateway Adapter (Milestones 1, 2, 3)...');
+const abdmGateway = new AbdmGatewayClient();
+const abhaProfile = await abdmGateway.generateAbhaViaAadhaar({
+  aadhaarNumberMasked: 'XXXX-XXXX-9912',
+  otpToken: '123456',
+  preferredAbhaAddress: 'john.doe@abdm',
+  mobileNumber: '+91-98765-43210'
+});
+
+assert.ok(abhaProfile.abhaNumber.startsWith('14-'));
+assert.strictEqual(abhaProfile.abhaAddress, 'john.doe@abdm');
+assert.strictEqual(abhaProfile.kycStatus, 'VERIFIED_AADHAAR_OTP');
+console.log(`   ✅ Milestone 1: ABHA Created: ${abhaProfile.abhaNumber} (${abhaProfile.abhaAddress}) via Gov AUA`);
+
+const consent = abdmGateway.createConsentRequest({
+  patientAbhaAddress: abhaProfile.abhaAddress,
+  purposeCode: 'CAREMGT',
+  fromTimestamp: '2025-01-01T00:00:00Z',
+  toTimestamp: '2026-12-31T23:59:59Z',
+  hiTypes: ['Prescription', 'DiagnosticReport', 'OPConsult'],
+  expiryTimestamp: '2026-12-31T23:59:59Z'
+});
+assert.strictEqual(consent.status, 'GRANTED');
+console.log(`   ✅ Milestone 2: Consent Artifact Granted: ${consent.consentRequestId}`);
+
+const transfer = abdmGateway.dispatchHealthDataTransfer({
+  transactionId: 'TX-ABDM-001',
+  consentId: consent.consentRequestId,
+  encryptedDataPayload: 'enc_ciphertext_blob_123',
+  keyMaterial: {
+    cryptoAlg: 'ECDH',
+    curve: 'Curve25519',
+    dhPublicKey: '0x334411',
+    nonce: '0x991122'
+  }
+});
+assert.strictEqual(transfer.success, true);
+console.log(`   ✅ Milestone 3: Encrypted Health Data Dispatched under Zero-Knowledge E2EE.\n`);
+
+// 21. Test Cashfree Regulated KYC & B2B Client SDK
+console.log('21. Testing Cashfree KYC & B2B Client SDK...');
+const kycConnector = new CashfreeKycConnector();
+const docVerify = kycConnector.verifyDoctorNmc('MCI-MH-2018-88410');
+assert.strictEqual(docVerify.verified, true);
+assert.strictEqual(docVerify.activeStatus, 'ACTIVE_REGISTERED');
+console.log(`   ✅ Cashfree Doctor NMC Verification: ${docVerify.doctorName} (${docVerify.activeStatus})`);
+
+const bankVerify = kycConnector.verifyBankAccount('1234567890', 'HDFC0001234', 'John Doe');
+assert.strictEqual(bankVerify.verified, true);
+assert.strictEqual(bankVerify.accountNumberMasked, 'XXXX-XXXX-7890');
+console.log(`   ✅ Cashfree Penny-Drop Bank Verification: Verified ${bankVerify.registeredAccountName} for cashless claim credit.`);
+
+const b2bSdk = new PHRliteSDK({
+  apiKey: 'pk_live_hospital_max_healthcare',
+  facilityId: 'MAX-SAKET-01',
+  facilityName: 'Max Super Speciality Hospital, Saket',
+  environment: 'sandbox'
+});
+
+const portabilityDossier = b2bSdk.exportPortabilityDossier({
+  patientId: 'PAT-JOHN-DOE-001',
+  currentInsurer: 'Star Health & Allied Insurance',
+  targetInsurer: 'HDFC ERGO General Insurance',
+  activePolicyNumber: '0123/SH/2026/8841',
+  continuousCoverageMonths: 36,
+  verifiedCommitHashes: ['hash_1', 'hash_2', 'hash_3']
+});
+assert.strictEqual(portabilityDossier.eligibleForZeroPedReset, true);
+assert.strictEqual(portabilityDossier.statutoryPortabilityWindowValid, true);
+console.log(`   ✅ B2B SDK Portability Dossier: ${portabilityDossier.dossierId} (Zero PED Waiting Period Reset Guaranteed under IRDAI 2024)`);
+
+// Test Admin Console DPDP Audit Log
+const auditEntry = AdminConsoleManager.logAudit({
+  actorId: 'MAX-SAKET-01',
+  actionType: 'RECORD_ACCESSED',
+  purposeCode: 'CAREMGT',
+  consentArtifactId: consent.consentRequestId
+});
+assert.ok(auditEntry.tamperProofSignature.length > 0);
+console.log(`   ✅ DPDP Cryptographic Audit Log: Entry ${auditEntry.logId} signed and sealed.\n`);
+
+console.log('🎉 ALL 21 TEST SUITES PASSED! PHRlite is fully operational, secure, interoperable, and compliant across all 3 modules.\n');
 
 
