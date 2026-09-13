@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHRlite | The Sovereign Health Passport</title>
+  <meta name="description" content="Local-first, zero-knowledge Personal Health Record built on SQLite, HL7 FHIR, and Git-like cryptographic commits. Free for life.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="#" class="logo-group">
+        <div class="logo-badge">🛂</div>
+        <div class="logo-text">
+          <h1>PHRlite <span class="logo-tag">OPEN PROTOCOL</span></h1>
+          <div class="logo-sub">The Sovereign Health Passport</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#passport-concept">The Passport</a></li>
+        <li><a href="#adoption-model">School Screening (SKIDS)</a></li>
+        <li><a href="#doctor-copilot">Doctor Copilot</a></li>
+        <li><a href="#sandbox-section">Live Sandbox</a></li>
+        <li><a href="#sandbox-section" class="btn-primary">Launch Passport</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-pill">
+        🛡️ Zero-Knowledge Architecture • Free for Life • Owned by You
+      </div>
+      <h2>Your Health History as a <span>Sovereign Passport</span></h2>
+      <p class="hero-desc">
+        Owned by the patient, stamped by licensed clinicians, and verified with Git-like cryptographic commits. Built on open standards: SQLite, HL7 FHIR, Google Health Connect, and Ed25519 digital signatures.
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 1rem;">
+        <a href="#sandbox-section" class="btn-primary" style="font-size: 1rem; padding: 0.8rem 1.8rem;">
+          🚀 Open Live Clinical Sandbox
+        </a>
+        <a href="https://github.com/satishskid/PHRlite" target="_blank" class="btn-secondary" style="font-size: 1rem; padding: 0.8rem 1.8rem;">
+          ⭐ View on GitHub
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-num">~20 MB</div>
+          <div class="stat-label">Lifetime PHR Size (80 Yrs)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">$0.003</div>
+          <div class="stat-label">Annual Cloud Cost / User</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">30 Sec</div>
+          <div class="stat-label">Doctor's 1-Page Mental Model</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Client Zero-Knowledge (E2EE)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Pillars -->
+  <section id="passport-concept" style="max-width: 1100px; margin: 2rem auto 4rem; padding: 0 1.5rem;">
+    <div style="text-align: center; margin-bottom: 2.5rem;">
+      <h3 style="font-size: 2rem; font-weight: 800; color: var(--primary);">Why a Health Passport?</h3>
+      <p style="color: var(--text-muted); max-width: 600px; margin: 0.5rem auto;">
+        We stopped treating health records like enterprise hospital silos. Instead, we give every human an indelible passport.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🛂</div>
+        <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">The Passport Metaphor</h4>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+          You own your passport. You carry it on your phone. When visiting a clinic or crossing borders, you present it for inspection. You cannot forge your own visas—only certified medical authorities stamp verified entries.
+        </p>
+      </div>
+
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🔗</div>
+        <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">Git Append-Only Commits</h4>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+          Medical history is longitudinal. Past asthma or penicillin reactions are never overwritten. Every new lab, visit, or wearable summary is a cryptographically signed commit (Ed25519) referencing the parent block.
+        </p>
+      </div>
+
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-sm);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🩺</div>
+        <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">Doctor's 1-Page Summary</h4>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+          Doctors don't have 30 minutes to read 200 pages of scanned PDFs. In 30 seconds, the Copilot generates an instant mental model: Active Problems, Current Meds, Critical Allergies, and recent biomarkers.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Sandbox Shell -->
+  <section id="sandbox-section" class="sandbox-section">
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+      <span class="hero-pill" style="margin-bottom: 0.5rem;">⚡ INTERACTIVE LIVE SANDBOX</span>
+      <h3 style="font-size: 2.2rem; font-weight: 800; color: var(--primary);">Experience the PHRlite Engine</h3>
+      <p style="color: var(--text-muted);">Switch between patient, school screening, clinical copilot, and zero-knowledge cloud views.</p>
+    </div>
+
+    <div class="sandbox-container">
+      <!-- Tabs -->
+      <div class="sandbox-tabs">
+        <button class="sandbox-tab active" data-target="pane-passport">
+          🛂 Citizen Passport <span class="tab-badge" id="passport-commit-count">3 Commits</span>
+        </button>
+        <button class="sandbox-tab" data-target="pane-chatbot">
+          💬 Adult Intake Chatbot <span class="tab-badge">FHIR Live</span>
+        </button>
+        <button class="sandbox-tab" data-target="pane-skids">
+          🎒 SKIDS School Screening <span class="tab-badge">Pediatric Wedge</span>
+        </button>
+        <button class="sandbox-tab" data-target="pane-copilot">
+          🩺 Doctor Copilot <span class="tab-badge">1-Page Summary</span>
+        </button>
+        <button class="sandbox-tab" data-target="pane-cloud">
+          ☁️ Cloudflare R2 Relay <span class="tab-badge">Zero-Knowledge</span>
+        </button>
+      </div>
+
+      <!-- Tab Body -->
+      <div class="sandbox-body">
+        
+        <!-- PANE 1: CITIZEN PASSPORT -->
+        <div id="pane-passport" class="tab-pane" style="display: block;">
+          <div class="passport-card">
+            <div class="passport-gold-emboss"></div>
+            
+            <div class="passport-header">
+              <div class="passport-emblem">
+                <div class="emblem-seal">🛡️</div>
+                <div class="passport-titles">
+                  <h3>Health Passport</h3>
+                  <p>Sovereign Medical Identity & Ledger</p>
+                </div>
+              </div>
+              <div class="passport-id-badge">
+                PASSPORT-IND-2026-9812
+              </div>
+            </div>
+
+            <div class="passport-identity-grid">
+              <div class="patient-avatar-box">
+                <div class="patient-avatar-icon">👤</div>
+                <div class="patient-blood-tag">BLOOD: B+</div>
+              </div>
+              <div class="identity-fields">
+                <div class="field-item">
+                  <span class="field-label">Full Name</span>
+                  <span class="field-val">Rohan Verma</span>
+                </div>
+                <div class="field-item">
+                  <span class="field-label">Date of Birth</span>
+                  <span class="field-val">1990-08-14 (Age 36)</span>
+                </div>
+                <div class="field-item">
+                  <span class="field-label">Status</span>
+                  <span class="field-val" style="color: #6ee7b7;">Active • Encrypted</span>
+                </div>
+                <div class="field-item">
+                  <span class="field-label">Genesis Anchor</span>
+                  <span class="field-val">2026-09-01</span>
+                </div>
+                <div class="field-item" style="grid-column: span 2;">
+                  <span class="field-label">Master Ed25519 Public Key</span>
+                  <span class="key-code">ac7ed9a017815f837b3d0d97e8f1c50b8923a4...</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="passport-stamps-header">
+              <h4>📜 Certified Visa & Stamp History</h4>
+              <span style="font-size: 0.75rem; color: #a7f3d0;">Verified Cryptographic Chain</span>
+            </div>
+
+            <div id="stamps-container" class="stamps-carousel">
+              <!-- Rendered dynamically by app.js -->
+            </div>
+
+            <div class="passport-action-bar">
+              <div style="font-size: 0.8rem; color: #a7f3d0;">
+                🔐 Protected by Apple FaceID / TouchID (Passkey)
+              </div>
+              <button class="btn-qr" onclick="openQRModal()">
+                📱 Generate Doctor Consultation Pass
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE 2: ADULT INTAKE CHATBOT -->
+        <div id="pane-chatbot" class="tab-pane" style="display: none;">
+          <div class="chat-wrapper">
+            <div class="chat-pane">
+              <div class="chat-header">
+                <div class="bot-avatar">💬</div>
+                <div>
+                  <div style="font-weight: 800; font-size: 0.9rem;">HealthVault Intake Agent</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Conversational FHIR Synthesizer</div>
+                </div>
+              </div>
+
+              <div id="chat-messages" class="chat-messages">
+                <div class="msg msg-bot">
+                  Hello Rohan! I'm your HealthVault assistant. Let's create your baseline profile in under 2 minutes so you never have to repeat your medical history again.
+                </div>
+                <div class="msg msg-bot">
+                  Do you take any prescription medications or have any known drug allergies?
+                </div>
+              </div>
+
+              <div class="chat-quick-replies">
+                <button class="chip-btn" onclick="sendQuickReply('I have a high Penicillin allergy')">+ Add Penicillin Allergy</button>
+                <button class="chip-btn" onclick="sendQuickReply('I take Metformin 500mg daily for Diabetes')">+ Add Metformin 500mg</button>
+                <button class="chip-btn" onclick="sendQuickReply('I had knee arthroscopy in 2021')">+ Add Past Knee Surgery</button>
+              </div>
+
+              <div class="chat-input-bar">
+                <input type="text" id="chat-user-input" placeholder="Type a condition, medication, or allergy...">
+                <button id="chat-send-btn">Send</button>
+              </div>
+            </div>
+
+            <div class="fhir-preview-pane">
+              <h5>
+                <span>HL7 FHIR R4 Draft Bundle</span>
+                <span style="font-size: 0.65rem; background: #0369a1; color: white; padding: 2px 6px; border-radius: 4px;">LIVE JSON</span>
+              </h5>
+              <pre id="fhir-preview-code"></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE 3: SKIDS SCHOOL SCREENING -->
+        <div id="pane-skids" class="tab-pane" style="display: none;">
+          <div class="skids-portal-grid">
+            <div class="portal-form-card">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+                <div style="width: 36px; height: 36px; background: #fef3c7; color: #b45309; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🎒</div>
+                <div>
+                  <h4 style="font-weight: 800; font-size: 1rem; color: var(--primary);">SKIDS School Health Screening</h4>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Certified Pediatric Onboarding Authority</div>
+                </div>
+              </div>
+
+              <form id="skids-form">
+                <div class="form-group-row">
+                  <div class="form-field">
+                    <label>Student Name</label>
+                    <input type="text" id="skids-student-name" value="Aarav Sharma" required>
+                  </div>
+                  <div class="form-field">
+                    <label>School Name</label>
+                    <input type="text" id="skids-school-name" value="Greenwood International School" required>
+                  </div>
+                </div>
+
+                <div class="form-group-row">
+                  <div class="form-field">
+                    <label>Grade & Section</label>
+                    <input type="text" id="skids-grade" value="Grade 4-B">
+                  </div>
+                  <div class="form-field">
+                    <label>Vision Acuity (Left / Right)</label>
+                    <input type="text" id="skids-vision" value="6/6 (Normal)">
+                  </div>
+                </div>
+
+                <div class="form-group-row">
+                  <div class="form-field">
+                    <label>Height (cm)</label>
+                    <input type="number" id="skids-height" value="138">
+                  </div>
+                  <div class="form-field">
+                    <label>Weight (kg)</label>
+                    <input type="number" id="skids-weight" value="32.5">
+                  </div>
+                </div>
+
+                <div class="form-group-row">
+                  <div class="form-field">
+                    <label>Dental Caries Count</label>
+                    <input type="number" id="skids-caries" value="0">
+                  </div>
+                  <div class="form-field">
+                    <label>Hearing Status</label>
+                    <select id="skids-hearing">
+                      <option>Normal (Passed 25dB Screening)</option>
+                      <option>Needs Specialist Referral</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+                  ✍️ Sign & Stamp Child's Genesis Passport (Ed25519)
+                </button>
+              </form>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem;">
+                <h5 style="font-weight: 800; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--primary);">The SKIDS Viral Adoption Flywheel</h5>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.45;">
+                  Schools already mandate annual screenings. When SKIDS stamps the pediatric report into a digital passport, parents receive an instant SMS claim link. Seeing their child's records cleanly digitized prompts the parents to create their own adult Health Passports!
+                </p>
+              </div>
+
+              <div id="skids-result-box" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE 4: DOCTOR COPILOT -->
+        <div id="pane-copilot" class="tab-pane" style="display: none;">
+          <div class="copilot-grid">
+            <!-- 1-Page Summary -->
+            <div class="mental-model-card">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+                <div>
+                  <h4 style="font-weight: 800; font-size: 1.1rem; color: var(--primary);">Doctor's 1-Page Mental Model</h4>
+                  <div id="copilot-patient-header" style="font-size: 0.78rem; color: var(--text-muted);">Loading patient...</div>
+                </div>
+                <span style="font-size: 0.7rem; background: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">
+                  ED25519 VERIFIED
+                </span>
+              </div>
+
+              <div class="alert-banner">
+                <div>🚨</div>
+                <div>
+                  <div style="font-size: 0.8rem; text-transform: uppercase;">Critical Contraindications</div>
+                  <ul id="copilot-allergies-list" style="list-style: none; font-size: 0.82rem; margin-top: 0.2rem;"></ul>
+                </div>
+              </div>
+
+              <div id="copilot-diff-text" class="delta-diff-box"></div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                  <h6 style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">📋 Active Conditions</h6>
+                  <ul id="copilot-problems-list" style="list-style: none; font-size: 0.8rem; line-height: 1.4;"></ul>
+                </div>
+                <div>
+                  <h6 style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">💊 Current Meds</h6>
+                  <ul id="copilot-meds-list" style="list-style: none; font-size: 0.8rem; line-height: 1.4;"></ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Note Drafter & Safety Checker -->
+            <div class="mental-model-card">
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <div style="font-size: 1.25rem;">⚡</div>
+                <h4 style="font-weight: 800; font-size: 1rem; color: var(--primary);">Clinical Copilot: Note Drafter</h4>
+              </div>
+
+              <div class="form-field" style="margin-bottom: 0.75rem;">
+                <label>Clinical Assessment</label>
+                <input type="text" id="copilot-assessment-input" value="Seasonal Allergic Bronchitis" style="border: 1px solid var(--border-dark); padding: 0.5rem; border-radius: 6px;">
+              </div>
+
+              <div class="form-field" style="margin-bottom: 0.75rem;">
+                <label>Treatment Plan</label>
+                <input type="text" id="copilot-plan-input" value="Prescribed Montelukast 10mg daily for 14 days." style="border: 1px solid var(--border-dark); padding: 0.5rem; border-radius: 6px;">
+              </div>
+
+              <div class="form-field" style="margin-bottom: 0.75rem;">
+                <label>Prescribe Medication (Try typing "Amoxicillin" or "Bactrim")</label>
+                <input type="text" id="copilot-rx-input" placeholder="Type drug name to test allergy check..." style="border: 1px solid var(--border-dark); padding: 0.5rem; border-radius: 6px;">
+              </div>
+
+              <div id="copilot-rx-warning" style="display: none; background: #fef2f2; border: 1px solid #f87171; color: #991b1b; padding: 0.6rem; border-radius: 6px; font-size: 0.78rem; margin-bottom: 0.75rem;"></div>
+
+              <button id="copilot-sign-btn" class="btn-primary" style="width: 100%; justify-content: center; font-size: 0.9rem;">
+                ✍️ Sign & Append Encounter Commit (Dr. Emily Watson, MD)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE 5: CLOUDFLARE ZK RELAY -->
+        <div id="pane-cloud" class="tab-pane" style="display: none;">
+          <div class="cloud-relay-box">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+              <h4 style="font-size: 1.3rem; font-weight: 800; color: var(--primary);">Zero-Knowledge Cloudflare R2 Sync</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 540px; margin: 0.3rem auto;">
+                Health privacy is protected by client-side mathematics (AES-256-GCM), not corporate promises. Cloudflare hosts only opaque binary noise.
+              </p>
+            </div>
+
+            <div class="zk-visual">
+              <div class="zk-node">
+                <div style="font-size: 2rem;">📱</div>
+                <div style="font-weight: 800; font-size: 0.9rem; margin-top: 0.5rem;">Patient Device</div>
+                <div style="font-size: 0.75rem; color: var(--accent-emerald); font-weight: 700;">Client-Side AES-256-GCM</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem;">Holds master private key in secure enclave</div>
+              </div>
+
+              <div class="zk-arrow">➔ 🔒 ➔</div>
+
+              <div class="zk-node">
+                <div style="font-size: 2rem;">☁️</div>
+                <div style="font-weight: 800; font-size: 0.9rem; margin-top: 0.5rem;">Cloudflare R2 Bucket</div>
+                <div style="font-size: 0.75rem; color: #0284c7; font-weight: 700;">Opaque Binary Storage</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem;">Unreadable ciphertext (0 egress fees)</div>
+              </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+              <button id="sync-zk-btn" class="btn-primary" style="padding: 0.75rem 1.8rem;">
+                Sync Sovereign Vault to Cloudflare R2
+              </button>
+            </div>
+
+            <div id="sync-zk-status"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Ephemeral QR Code Modal -->
+  <div id="qr-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h4 style="font-weight: 800; color: var(--primary);">Doctor Consultation Pass</h4>
+        <button onclick="closeQRModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        Show this QR to your doctor's workstation. Grants a <strong>4-hour ephemeral read token</strong> with zero permanent hospital server storage.
+      </p>
+
+      <div class="qr-placeholder">
+        <div style="text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">🏁</div>
+          <div>QR Token: <code>TOKEN-ROHAN-VERMA-9812</code></div>
+          <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 0.3rem;">Biometric FIDO2 Validated</div>
+        </div>
+      </div>
+
+      <button class="btn-secondary" onclick="closeQRModal()" style="width: 100%;">
+        Done
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background: white; border-top: 1px solid var(--border-color); padding: 3rem 1.5rem; text-align: center; margin-top: 4rem;">
+    <div style="max-width: 800px; margin: 0 auto;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <div class="logo-badge" style="width: 30px; height: 30px; font-size: 0.9rem;">🛂</div>
+        <strong style="font-size: 1.1rem;">PHRlite</strong>
+        <span style="color: var(--text-muted); font-size: 0.9rem;">• The Sovereign Health Passport</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+        An open-source standard for lifetime medical records. Free for life, self-sovereign, and verified with Git-like commits.<br>
+        Deployed on <a href="https://phrlite.greybrain.in" style="color: var(--accent-emerald); font-weight: 700; text-decoration: none;">phrlite.greybrain.in</a> • Built with pride for clinicians and citizens.
+      </p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
