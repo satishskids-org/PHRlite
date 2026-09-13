@@ -1053,7 +1053,276 @@ body::before {
   text-align: center;
 }
 
-/* Responsive */
+/* BEFORE & AFTER STORY SECTION */
+.before-after-section {
+  padding: 7rem 2rem;
+  background: white;
+  border-top: 1px solid var(--border-warm);
+  border-bottom: 1px solid var(--border-warm);
+}
+
+.story-feature-image-wrap {
+  max-width: 1100px;
+  margin: 0 auto 3.5rem;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-warm);
+  position: relative;
+}
+
+.story-feature-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.image-split-captions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #141f19;
+  color: white;
+  padding: 1.25rem 2rem;
+}
+
+.caption-left {
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  padding-right: 1.5rem;
+  font-size: 0.88rem;
+  color: #fca5a5;
+}
+
+.caption-right {
+  padding-left: 1.5rem;
+  font-size: 0.88rem;
+  color: #a7f3d0;
+}
+
+/* UPI FOR HEALTHCARE SECTION */
+.upi-section {
+  padding: 7rem 2rem;
+  background: var(--bg-sand);
+}
+
+.upi-stage-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.upi-visual-wrap {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-warm);
+}
+
+.upi-visual-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.upi-steps-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.upi-step-card {
+  background: white;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  padding: 1.6rem;
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.upi-step-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--forest-emerald);
+  box-shadow: var(--shadow-card);
+}
+
+.upi-step-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--forest-emerald);
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+}
+
+.upi-step-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--forest-deep);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.upi-step-desc {
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+  line-height: 1.55;
+}
+
+/* GENESIS UNDER 60 SECONDS SECTION */
+.genesis-section {
+  padding: 7rem 2rem;
+  background: white;
+  border-top: 1px solid var(--border-warm);
+}
+
+.genesis-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.genesis-card {
+  background: var(--bg-parchment);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.genesis-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--forest-emerald);
+}
+
+.genesis-time-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  background: white;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-full);
+  color: var(--forest-rich);
+  width: fit-content;
+  margin-bottom: 1.5rem;
+}
+
+.genesis-icon {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.genesis-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: var(--forest-deep);
+  margin-bottom: 0.75rem;
+}
+
+.genesis-desc {
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.genesis-flow-steps {
+  list-style: none;
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  line-height: 1.7;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1rem;
+}
+
+.genesis-flow-steps li {
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.genesis-flow-steps li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--forest-emerald);
+}
+
+/* OPEN STANDARDS & ABDM SECTION */
+.standards-section {
+  padding: 7rem 2rem;
+  background: #092c20;
+  color: white;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.standards-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.standards-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+}
+
+.standards-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #6ee7b7;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.standards-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  color: #fef08a;
+  margin-bottom: 1rem;
+}
+
+.standards-text {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.standards-pills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.standards-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+/* Responsive updates for new sections */
 @media (max-width: 1024px) {
   .hero-inner {
     grid-template-columns: 1fr;
@@ -1075,6 +1344,28 @@ body::before {
   .security-quad-grid {
     grid-template-columns: 1fr 1fr;
   }
+  .upi-stage-grid {
+    grid-template-columns: 1fr;
+  }
+  .genesis-grid {
+    grid-template-columns: 1fr;
+  }
+  .standards-grid {
+    grid-template-columns: 1fr;
+  }
+  .image-split-captions {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .caption-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-right: 0;
+    padding-bottom: 1rem;
+  }
+  .caption-right {
+    padding-left: 0;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1092,3 +1383,4 @@ body::before {
     height: 640px;
   }
 }
+
