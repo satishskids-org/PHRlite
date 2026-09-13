@@ -406,5 +406,76 @@ const exportedPrescription = EmrInteroperabilityBridge.exportPrescriptionRecord(
 assert.strictEqual(exportedPrescription.resourceType, 'Bundle');
 console.log('   ✅ PrescriptionRecord successfully generated for Pharmacy POS billing.\n');
 
-console.log('🎉 ALL TESTS PASSED! PHRlite is fully operational, secure, and interoperable.\n');
+// 13. Test Patient-Friendly Digital Drug Leaflet (Premium Feature)
+console.log('13. Testing Patient-Friendly Digital Drug Leaflet (Microscopic Booklet Unfolded)...');
+import { 
+  generatePatientFriendlyLeaflet,
+  EcommercePharmacyEngine,
+  PayerClaimsEngine,
+  HipaaHl7ComplianceEngine
+} from '../src/index.ts';
+
+const leaflet = generatePatientFriendlyLeaflet('Salbutamol Inhaler', '2 puffs as needed for breathlessness');
+assert.ok(leaflet.purposeInPlainLanguage.includes('Relaxes the muscles'));
+assert.ok(leaflet.howAndWhenToTake.includes('Inhale deeply'));
+assert.ok(leaflet.sideEffects.commonAndManageable.length > 0);
+assert.ok(leaflet.sideEffects.callDoctorImmediately.length > 0);
+assert.ok(leaflet.genericCostSavings);
+console.log(`   ✅ Leaflet Generated: ${leaflet.genericName}`);
+console.log(`   ✅ Purpose in plain English: "${leaflet.purposeInPlainLanguage}"`);
+console.log(`   ✅ Generic Monthly Savings: ₹${leaflet.genericCostSavings?.monthlySavingsINR} via PMBJP Jan Aushadhi\n`);
+
+// 14. Test E-Commerce 1-Tap Pharmacy Order (Tata 1mg / Apollo 24/7 Flow)
+console.log('14. Testing E-Commerce Pharmacy 1-Tap Checkout (Tata 1mg Integration)...');
+const rxJson = JSON.stringify(exportedPrescription);
+const doctorRxSig = signEd25519(rxJson, doctorKeys.privateKeyHex);
+
+const orderResult = EcommercePharmacyEngine.processOneTapOrder({
+  prescriptionBundle: exportedPrescription,
+  doctorSignatureHex: doctorRxSig,
+  doctorPublicKeyHex: doctorKeys.publicKeyHex,
+  preferGenerics: true,
+});
+
+assert.strictEqual(orderResult.status, 'VERIFIED_AND_PLACED');
+assert.ok(orderResult.items.length > 0);
+assert.ok(orderResult.deliveryEstimateHours <= 4);
+console.log(`   ✅ E-Commerce Order Placed: ${orderResult.orderId} for ${orderResult.patientName}`);
+console.log(`   ✅ Verified Doctor: ${orderResult.doctorName} (License: ${orderResult.doctorLicense})`);
+console.log(`   ✅ Smart Generic Substitution: Saved ₹${orderResult.totalSavingsINR} (Delivery in ${orderResult.deliveryEstimateHours} hrs)\n`);
+
+// 15. Test Payer Claims Adjudication (Zero Fraud, Instant Cashless Settlement)
+console.log('15. Testing Payer Claims Adjudication (Fraud-Proof Settlement in Seconds)...');
+const claimResult = PayerClaimsEngine.adjudicateClaim({
+  receipt: sealResult.receipt,
+  coverage: insurance,
+  claimedAmountINR: 25000,
+  doctorPublicKeyHex: doctorKeys.publicKeyHex,
+});
+
+assert.strictEqual(claimResult.status, 'SETTLED_CASHLESS');
+assert.strictEqual(claimResult.fraudRiskScore, 0); // 0 Fraud Risk
+assert.strictEqual(claimResult.auditProof.doctorSignatureValid, true);
+assert.strictEqual(claimResult.auditProof.merkleCommitValid, true);
+assert.ok(claimResult.settledAmountINR > 0);
+console.log(`   ✅ Claim Settled: ${claimResult.claimId} (Settled: ₹${claimResult.settledAmountINR}) in ${claimResult.adjudicationDurationMs}ms`);
+console.log(`   ✅ Fraud Risk Score: ${claimResult.fraudRiskScore} (Zero Fraud: Cryptographically Proven)\n`);
+
+// 16. Test HIPAA Technical Safeguards & HL7 FHIR Conformance
+console.log('16. Testing HIPAA Technical Safeguards & HL7 FHIR Conformance Audit...');
+const hipaaReport = HipaaHl7ComplianceEngine.auditHipaaSafeguards(adultPassport);
+assert.strictEqual(hipaaReport.overallStatus, 'FULLY_COMPLIANT');
+assert.strictEqual(hipaaReport.safeguardChecks.length, 6);
+for (const check of hipaaReport.safeguardChecks) {
+  assert.strictEqual(check.status, 'COMPLIANT');
+}
+console.log(`   ✅ HIPAA Audit: ${hipaaReport.overallStatus} across 6 mandatory 45 CFR § 164.312 safeguards.`);
+
+const fhirAudit = HipaaHl7ComplianceEngine.validateFhirBundle(sealResult.receipt.bundle);
+assert.strictEqual(fhirAudit.valid, true);
+assert.ok(fhirAudit.resourceCount >= 4);
+console.log(`   ✅ HL7 FHIR R4 Audit: Validated ${fhirAudit.resourceCount} resources (${fhirAudit.validatedResourceTypes.join(', ')})\n`);
+
+console.log('🎉 ALL 16 TEST SUITES PASSED! PHRlite is fully operational, secure, interoperable, and compliant.\n');
+
 

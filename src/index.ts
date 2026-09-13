@@ -16,3 +16,7 @@ export * from './exchange/insurance.ts';
 export * from './exchange/drug_safety.ts';
 export * from './exchange/interop_bridge.ts';
 export * from './exchange/provider_terminal.ts';
+export * from './exchange/patient_drug_leaflet.ts';
+export * from './exchange/pharmacy_ecommerce.ts';
+export * from './exchange/payer_claims.ts';
+export * from './compliance/hipaa_hl7.ts';
