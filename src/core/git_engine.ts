@@ -196,3 +196,6 @@ export class GitHealthPassport {
     return result;
   }
 }
+
+export { GitHealthPassport as GitEngine };
+

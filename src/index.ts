@@ -1,4 +1,4 @@
-export * from './core/types.ts';
+export type * from './core/types.ts';
 export * from './core/crypto.ts';
 export * from './core/fhir.ts';
 export * from './core/db.ts';
@@ -11,3 +11,8 @@ export * from './plugins/apple_healthkit.ts';
 export * from './copilot/timeline_synthesizer.ts';
 export * from './copilot/note_drafter.ts';
 export * from './cloud/cloudflare_relay.ts';
+export * from './exchange/cryptogram.ts';
+export * from './exchange/insurance.ts';
+export * from './exchange/drug_safety.ts';
+export * from './exchange/interop_bridge.ts';
+export * from './exchange/provider_terminal.ts';

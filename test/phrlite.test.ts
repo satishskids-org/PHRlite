@@ -244,4 +244,167 @@ const decryptedPayload = relay.downloadAndDecryptVault(
 assert.strictEqual(decryptedPayload, rawExport, 'Decrypted payload from cloud must equal raw export');
 console.log(`   ✅ Zero-knowledge vault synced to Cloudflare R2 (${cloudVault.blobSizeBytes} bytes)\n`);
 
-console.log('🎉 ALL TESTS PASSED! PHRlite is fully operational and verified.\n');
+// 9. Test Visa / Mastercard / UPI Grade Encounter Cryptogram & Anti-Replay
+console.log('9. Testing Visa/Mastercard/UPI Grade Dynamic Encounter Cryptograms...');
+import { 
+  mintEncounterCryptogram, 
+  verifyEncounterCryptogram, 
+  createInsuranceCoverage,
+  verifyInsuranceCoverage,
+  ProviderTerminalEngine,
+  checkPrescriptionSafety,
+  EmrInteroperabilityBridge
+} from '../src/index.ts';
+
+const insurance = createInsuranceCoverage({
+  policyNumber: 'STAR-HEALTH-2026-9921',
+  patientId: 'PATIENT-JOHN-DOE',
+  insurerName: 'Star Health & Allied Insurance',
+  insurerCode: 'STAR-IND-01',
+  policyType: 'Family Health Optima',
+  startDate: '2026-01-01',
+  endDate: '2026-12-31',
+  preAuthToken: 'PREAUTH-CASHLESS-APPROVED-778',
+});
+
+const covCheck = verifyInsuranceCoverage(insurance);
+assert.strictEqual(covCheck.valid, true);
+assert.strictEqual(covCheck.cashlessEligible, true);
+console.log(`   ✅ Instant insurance eligibility verified: ${covCheck.insurer} (${covCheck.policyNumber})`);
+
+const cryptogram = mintEncounterCryptogram({
+  passportId: 'passport-adult-001',
+  patientId: 'PATIENT-JOHN-DOE',
+  patientPrivateKeyHex: patientKeys.privateKeyHex,
+  patientPublicKeyHex: patientKeys.publicKeyHex,
+  purpose: 'OPD_CONSULT',
+  coverage: insurance,
+  scope: 'SUMMARY_ONLY',
+});
+
+// Normal verification
+const validation = verifyEncounterCryptogram(cryptogram);
+assert.strictEqual(validation.valid, true, 'Cryptogram should be valid');
+
+// Anti-Replay Defense: Re-submitting the exact same cryptogram MUST be rejected (like EMV / UPI)
+const replayValidation = verifyEncounterCryptogram(cryptogram);
+assert.strictEqual(replayValidation.valid, false, 'Replayed cryptogram must be rejected');
+assert.ok(replayValidation.reason?.includes('REPLAY_ATTACK_DETECTED'), 'Must flag replay attack');
+
+// Forgery Defense: Modifying patientId without re-signing MUST fail signature verification
+const forgedCryptogram = {
+  ...mintEncounterCryptogram({
+    passportId: 'passport-adult-001',
+    patientId: 'PATIENT-JOHN-DOE',
+    patientPrivateKeyHex: patientKeys.privateKeyHex,
+    patientPublicKeyHex: patientKeys.publicKeyHex,
+  }),
+  patientId: 'PATIENT-ATTACKER-EVIL', // Maliciously tampered field
+};
+const forgedValidation = verifyEncounterCryptogram(forgedCryptogram);
+assert.strictEqual(forgedValidation.valid, false, 'Tampered cryptogram must fail signature verification');
+console.log('   ✅ Cryptogram verified: Anti-replay defense and tamper-resistance passed.\n');
+
+// 10. Test Provider Terminal Check-In & 1-Page Summary Synthesis
+console.log('10. Testing Provider Terminal Check-In (Zero Receptionist Paperwork)...');
+const providerTerminal = new ProviderTerminalEngine();
+const freshCryptogram = mintEncounterCryptogram({
+  passportId: 'passport-adult-001',
+  patientId: 'PATIENT-JOHN-DOE',
+  patientPrivateKeyHex: patientKeys.privateKeyHex,
+  patientPublicKeyHex: patientKeys.publicKeyHex,
+  purpose: 'OPD_CONSULT',
+  coverage: insurance,
+});
+
+const checkInResult = providerTerminal.checkInPatient(freshCryptogram, adultPassport);
+assert.strictEqual(checkInResult.success, true);
+assert.ok(checkInResult.session);
+assert.strictEqual(checkInResult.session.patient.name, 'John Doe');
+assert.ok(checkInResult.insuranceNotice?.includes('Star Health'));
+console.log(`   ✅ 1-Tap check-in succeeded: ${checkInResult.insuranceNotice}`);
+
+// 11. Test Open Drug Formulary Safety Checks & Reciprocal Stamping
+console.log('11. Testing Indian Drug Library (NLEM & PMBJP) & Doctor Reciprocal Stamping...');
+// Patient has Penicillin allergy (from test 2)
+const allergyCheck = checkPrescriptionSafety('Amoxicillin + Clavulanic Acid', ['Penicillin']);
+assert.strictEqual(allergyCheck.isSafe, false, 'Amoxicillin should be flagged for Penicillin allergy');
+assert.ok(allergyCheck.warnings[0].includes('CRITICAL SAFETY ALERT'));
+console.log(`   ✅ NFI Safety Alert triggered: ${allergyCheck.warnings[0]}`);
+
+// Doctor switches to safe non-penicillin alternative (Salbutamol inhaler)
+const safeCheck = checkPrescriptionSafety('Salbutamol Inhaler', ['Penicillin']);
+assert.strictEqual(safeCheck.isSafe, true, 'Salbutamol should be safe for Penicillin allergy');
+assert.ok(safeCheck.genericSavingsNotice?.includes('PMBJP Jan Aushadhi'));
+console.log(`   ✅ Generic optimization: ${safeCheck.genericSavingsNotice}`);
+
+// Doctor seals encounter (Free vs Premium tier)
+const sealResult = providerTerminal.sealEncounter({
+  sessionId: checkInResult.session.sessionId,
+  doctorIdentity: {
+    id: 'DOC-MH-44910',
+    name: 'Dr. Priya Rao, MD',
+    role: 'PROVIDER',
+    institution: 'Apollo City Hospital',
+    publicKeyHex: doctorKeys.publicKeyHex,
+  },
+  doctorPrivateKeyHex: doctorKeys.privateKeyHex,
+  gitEngine: adultPassport,
+  diagnoses: ['Acute Bronchospasm', 'Type 2 Diabetes Review'],
+  medications: [
+    { drug: 'Salbutamol Inhaler 100mcg', dosage: '2 puffs as needed' }
+  ],
+  clinicalAdvice: 'Avoid exposure to dust. Use inhaler before exercise. Review in 2 weeks.',
+  tier: 'PREMIUM',
+  premiumAttachments: [
+    {
+      type: 'image/dicom',
+      title: 'Chest X-Ray Digital Tomography',
+      sizeBytes: 1450020,
+      urlOrPayload: 'data:application/dicom;base64,...'
+    }
+  ]
+});
+
+assert.strictEqual(sealResult.success, true);
+assert.ok(sealResult.receipt);
+assert.strictEqual(sealResult.receipt.tier, 'PREMIUM');
+assert.strictEqual(sealResult.receipt.attachments?.length, 1);
+
+// Verify passport blockchain ledger has new commit
+const updatedChain = adultPassport.verifyChain();
+assert.strictEqual(updatedChain.valid, true);
+console.log(`   ✅ Doctor sealed encounter and stamped reciprocal receipt (Lifetime Commits: ${updatedChain.commitCount})\n`);
+
+// 12. Test Universal EMR Interoperability Bridge (Breaking Hospital Silos)
+console.log('12. Testing Universal EMR Interoperability Bridge (NRCeS FHIR R4)...');
+const legacyHospitalPayload = {
+  hospitalName: 'Fortis Memorial Research Institute',
+  patientName: 'John Doe',
+  patientDob: '1985-04-12',
+  gender: 'male',
+  visitDate: '2026-09-01',
+  diagnoses: ['Essential Hypertension'],
+  prescriptions: [{ drug: 'Telmisartan 40mg', dosage: '1 tablet once daily in morning' }],
+  labResults: [{ testName: 'Serum Creatinine', value: 0.9, unit: 'mg/dL' }],
+  insurancePolicyNumber: 'STAR-HEALTH-2026-9921',
+  insurerName: 'Star Health & Allied Insurance',
+};
+
+const importedFhirBundle = EmrInteroperabilityBridge.importLegacyHospitalFeed(legacyHospitalPayload);
+assert.strictEqual(importedFhirBundle.resourceType, 'Bundle');
+assert.strictEqual(importedFhirBundle.entry.length, 6); // Patient, Encounter, Condition, Med, Observation, Coverage
+console.log(`   ✅ Legacy hospital EMR feed imported into standard NRCeS FHIR R4 (${importedFhirBundle.entry.length} entries)`);
+
+const exportedPrescription = EmrInteroperabilityBridge.exportPrescriptionRecord({
+  bundleId: 'presc-9901',
+  patient: checkInResult.session.patient,
+  medications: sealResult.receipt.prescriptions,
+  prescribedBy: 'Dr. Priya Rao',
+  doctorLicense: 'DOC-MH-44910',
+});
+assert.strictEqual(exportedPrescription.resourceType, 'Bundle');
+console.log('   ✅ PrescriptionRecord successfully generated for Pharmacy POS billing.\n');
+
+console.log('🎉 ALL TESTS PASSED! PHRlite is fully operational, secure, and interoperable.\n');
+

@@ -97,6 +97,25 @@ export interface FHIREncounter {
   summaryNote?: string; // Clinical SOAP note / discharge summary
 }
 
+export interface FHIRCoverage {
+  resourceType: 'Coverage';
+  id: string;
+  status: 'active' | 'cancelled' | 'draft';
+  subscriberId: string;       // Policy / Member Card #
+  beneficiary: string;        // Patient reference ID
+  payor: {
+    name: string;             // Insurer e.g. "Star Health", "HDFC ERGO", "Ayushman Bharat PM-JAY"
+    code: string;             // IRDAI / ABDM Insurer Code
+  };
+  period: {
+    start: string;
+    end: string;
+  };
+  policyType: string;         // e.g. "Family Floater", "Comprehensive Health", "PM-JAY Scheme"
+  networkStatus?: 'in-network' | 'out-of-network';
+  preAuthToken?: string;      // Cashless pre-approval token
+}
+
 export interface FHIRBundle {
   resourceType: 'Bundle';
   id: string;
@@ -109,7 +128,8 @@ export interface FHIRBundle {
       | FHIRCondition 
       | FHIRMedicationRequest 
       | FHIRAllergyIntolerance 
-      | FHIRObservation;
+      | FHIRObservation
+      | FHIRCoverage;
   }>;
 }
 
@@ -142,3 +162,59 @@ export interface EphemeralConsentToken {
   sessionKey: string; // Ephemeral decryption key
   signature: string;
 }
+
+// VISA / MASTERCARD / UPI GRADE ENCOUNTER CRYPTOGRAM (Anti-Replay, Mutual Authentication)
+export interface EncounterCryptogram {
+  protocolVersion: 'PHR-UPI-v1';
+  passportId: string;
+  patientId: string;
+  sessionNonce: string;       // 32-byte cryptographic nonce preventing replay attacks
+  timestamp: string;          // ISO 8601 check-in time
+  expiresAt: string;          // Expiration window (e.g. +30 minutes)
+  purpose: 'OPD_CONSULT' | 'EMERGENCY' | 'PHARMACY' | 'LAB' | 'INPATIENT';
+  patientPublicKeyHex: string;
+  coverage?: FHIRCoverage;    // Instant insurance handoff (zero receptionist paperwork)
+  scope: 'SUMMARY_ONLY' | 'FULL_RECORDS';
+  patientSignature: string;   // Ed25519 signature over canonical check-in cryptogram
+}
+
+// Active session on the Provider Terminal
+export interface EncounterSession {
+  sessionId: string;
+  cryptogram: EncounterCryptogram;
+  patient: FHIRPatient;
+  coverage: FHIRCoverage | null;
+  clinicalSummary: {
+    criticalAllergies: FHIRAllergyIntolerance[];
+    activeConditions: FHIRCondition[];
+    activeMedications: FHIRMedicationRequest[];
+    recentVitals: FHIRObservation[];
+  };
+  status: 'CHECKED_IN' | 'IN_CONSULTATION' | 'SEALED_AND_DISCHARGED';
+  startedAt: string;
+  sealedAt?: string;
+  receipt?: EncounterReceipt;
+}
+
+// Reciprocal Cryptographic Receipt stamped back to Patient Passport
+export interface EncounterReceipt {
+  receiptId: string;
+  encounterId: string;
+  sessionId: string;
+  doctor: AuthorIdentity;
+  doctorSignature: string;     // Ed25519 signature from doctor's verified medical license
+  summaryNote: string;         // Clinical SOAP note / advice
+  prescriptions: FHIRMedicationRequest[];
+  observations: FHIRObservation[];
+  bundle: FHIRBundle;
+  commitHash: string;          // Git Merkle commit hash stamped into SQLite ledger
+  tier: 'FREE' | 'PREMIUM';
+  attachments?: Array<{
+    type: string;              // 'application/pdf' | 'image/dicom' | 'application/json'
+    title: string;
+    sizeBytes: number;
+    urlOrPayload: string;
+  }>;
+  timestamp: string;
+}
+
