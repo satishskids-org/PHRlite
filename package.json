@@ -1,0 +1,23 @@
+{
+  "name": "phrlite",
+  "version": "0.1.0",
+  "description": "Sovereign Personal Health Record Protocol & Passport using SQLite, HL7 FHIR, and Git-like Commits",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "node --experimental-strip-types test/phrlite.test.ts",
+    "demo": "node --experimental-strip-types demo/cli_demo.ts"
+  },
+  "keywords": [
+    "phr",
+    "fhir",
+    "sqlite",
+    "sovereignty",
+    "health-passport",
+    "git",
+    "health-connect",
+    "ed25519"
+  ],
+  "author": "satish@skids.health",
+  "license": "Apache-2.0"
+}
