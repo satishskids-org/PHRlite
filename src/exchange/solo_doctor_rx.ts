@@ -10,6 +10,7 @@
 
 import { INDIAN_OPEN_DRUG_LIBRARY, DrugSafetyChecker } from './drug_safety.ts';
 import { generateEd25519KeyPair, signEd25519 } from '../core/crypto.ts';
+import { RegulatoryComplianceGate } from '../compliance/regulatory_gate.ts';
 
 export interface PrescribedDrugInput {
   genericName: string;          // Must be uppercase
@@ -107,6 +108,13 @@ export class SoloDoctorRxPad {
       // Enforce UPPERCASE generic name as mandated by NMC
       const upperGeneric = med.genericName.toUpperCase();
 
+      // Check NMC Schedule X prohibition under Telemedicine Guidelines
+      const scheduleXCheck = RegulatoryComplianceGate.validateTelemedDrug(upperGeneric);
+      if (!scheduleXCheck.permitted && scheduleXCheck.violationMessage) {
+        criticalSafetyAlerts.push(scheduleXCheck.violationMessage);
+        errors.push(scheduleXCheck.violationMessage);
+      }
+
       // Check drug allergies
       const safetyCheck = DrugSafetyChecker.checkContraindication(upperGeneric, params.patientAllergies);
       if (!safetyCheck.safe && safetyCheck.alertMessage) {
@@ -143,6 +151,10 @@ export class SoloDoctorRxPad {
         estimatedSavingsInr: savings
       };
     });
+
+    if (errors.length > 0) {
+      return { success: false, criticalSafetyAlerts, errors };
+    }
 
     const prescriptionId = `RX-NMC-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
     const issuanceTimestamp = new Date().toISOString();

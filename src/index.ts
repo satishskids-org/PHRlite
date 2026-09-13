@@ -27,3 +27,4 @@ export * from './sdk/phrlite_sdk.ts';
 export * from './cloud/abdm_gateway.ts';
 export * from './cloud/cashfree_kyc.ts';
 export * from './cloud/admin_config.ts';
+export * from './compliance/regulatory_gate.ts';
