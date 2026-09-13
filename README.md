@@ -39,11 +39,8 @@ PHRlite treats personal health data like a **Passport**:
 
 ### Run the Interactive Simulation
 ```bash
-npm run demo
-```
-
-### Run the Test Suite
-```bash
+git clone https://github.com/satishskids-org/PHRlite.git
+cd PHRlite
 npm test
 ```
 
