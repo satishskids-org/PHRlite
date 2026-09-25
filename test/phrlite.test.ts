@@ -12,7 +12,8 @@ import {
   HealthConnectAdapter,
   TimelineSynthesizer,
   ClinicalCopilot,
-  CloudflareZeroKnowledgeRelay
+  CloudflareZeroKnowledgeRelay,
+  LayaDecisionRouter
 } from '../src/index.ts';
 
 console.log('🧪 Starting PHRlite Test Suite...\n');
@@ -818,6 +819,56 @@ assert.strictEqual(certInReport.statutorySlaHours, 6);
 assert.strictEqual(certInReport.submissionEmail, 'incident@cert-in.org.in');
 console.log(`   ✅ CERT-In Cyber Incident Reporting: Statutory 6-hour report formatted for ${certInReport.submissionEmail}.\n`);
 
-console.log('🎉 ALL 22 TEST SUITES PASSED! PHRlite is 100% plug-and-play production-certified and statutorily compliant.\n');
+// 23. Testing Laya System-1 Non-Autoregressive Decision Engine (PWA WebGPU OPFS + 100+ Language Router + DPDP Hooks)
+console.log('23. Testing Laya System-1 Decision Engine (PWA WebGPU OPFS + 100+ Languages + DPDP PII Hooks)...');
+const layaRouter = new LayaDecisionRouter({
+  cloudflareContainerUrl: 'https://laya-edge.phrlite.workers.dev/predict',
+  calibrationTemperature: 1.0
+});
+
+// 23a. Initial state uses Cloudflare Container Edge fallback while OPFS downloads 176 MB Q4F16 shards
+const initialProgress = layaRouter.pwaManager.getProgress();
+assert.strictEqual(initialProgress.activeRuntime, 'CLOUDFLARE_CONTAINER_EDGE');
+assert.strictEqual(initialProgress.totalMB, 176);
+
+// 23b. Test Hindi (Devanagari) symptom routing + automatic DPDP PII scrubbing before inference
+const hindiTriage = layaRouter.triagePatientVernacular(
+  'मुझे कल रात से सीने में तेज दर्द और सांस लेने में दिक्कत हो रही है। My ABHA is 14-8841-9920-1142 and phone is +91 9820011223'
+);
+assert.strictEqual(hindiTriage.routing.model, 'multilingual', 'Devanagari script must route to laya-multilingual');
+assert.strictEqual(hindiTriage.routing.script, 'devanagari');
+assert.strictEqual(hindiTriage.piiRedactedCount, 2, 'Both ABHA ID and mobile phone must be scrubbed by on_predict_start hook');
+assert.ok(hindiTriage.answers.red_flag_er.noul! > 0.85, 'Acute chest pain + dyspnea in Hindi must trigger high red_flag_er probability');
+assert.ok(hindiTriage.auditSignatureHex.length > 32, 'Every System-1 decision must be Ed25519 signed by on_predict_end hook');
+console.log(`   ✅ Vernacular Triage (Hindi/Devanagari): Routed to ${hindiTriage.routing.repo} (${hindiTriage.elapsedMs}ms), Red Flag P(yes)=${hindiTriage.answers.red_flag_er.noul}, PII Scrubbed=${hindiTriage.piiRedactedCount}`);
+
+// 23c. Simulate completing the 8x 22MB R2 -> OPFS chunk download in Browser PWA
+layaRouter.pwaManager.advanceDownloadChunk(8);
+const cachedProgress = layaRouter.pwaManager.getProgress();
+assert.strictEqual(cachedProgress.activeRuntime, 'PWA_WEBGPU_OPFS');
+assert.strictEqual(cachedProgress.percent, 100);
+console.log(`   ✅ Browser PWA OPFS Cache: ${cachedProgress.statusText}`);
+
+// 23d. Test Solo-Doctor 30s Rx Pad Safety Gate on WebGPU OPFS tier
+const rxSafety = layaRouter.evaluateSoloDoctorRxSafety({
+  patientAllergies: ['Penicillin'],
+  activeConditions: ['Asthma'],
+  prescribedDrugs: ['Amoxicillin + Clavulanic Acid 625mg'],
+  clinicalNotes: 'Patient has known Penicillin allergy; prescribed Amoxicillin'
+});
+assert.strictEqual(rxSafety.executionTier, 'PWA_WEBGPU_OPFS');
+assert.strictEqual(rxSafety.answers.cross_allergy_risk.scoreLabel, 'contraindicated_block');
+console.log(`   ✅ Solo-Doctor System-1 Safety Gate: Cross-allergy risk=${rxSafety.answers.cross_allergy_risk.scoreLabel} (Confidence=${rxSafety.answers.cross_allergy_risk.confidence})`);
+
+// 23e. Test Long-Document (`max_len=8192`) ABDM NRCeS HiType Classification & IRDAI Pre-Auth Gate
+const docClass = layaRouter.classifyLegacyMedicalDocument(
+  'THYROCARE DIAGNOSTICS LABORATORY REPORT. Patient HbA1c: 7.8% (Diabetic range since 2022). Fasting Blood Sugar: 148 mg/dL. Lipid Profile normal.'
+);
+assert.strictEqual(docClass.answers.abdm_hi_type.choice, 'DiagnosticReport');
+assert.ok(docClass.answers.chronic_ped_evidence.noul! > 0.8, 'Must detect chronic PED evidence for IRDAI continuity');
+console.log(`   ✅ Long-Document (8192-token) Classifier: HiType=${docClass.answers.abdm_hi_type.choice}, Chronic PED P(yes)=${docClass.answers.chronic_ped_evidence.noul}\n`);
+
+console.log('🎉 ALL 23 TEST SUITES PASSED! PHRlite (phrjev System-1 Edition) is 100% verified and statutorily compliant.\n');
+
 
 

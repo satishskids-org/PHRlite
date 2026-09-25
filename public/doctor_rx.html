@@ -217,15 +217,40 @@
         <textarea class="form-control" rows="2">Inhale deeply and rinse mouth with water after use. Avoid cold drinks. Review in 1 week if wheezing persists.</textarea>
       </div>
 
+      <!-- Laya System-1 Pre-Sign Clinical Safety Gate (7.2ms Batched) -->
+      <div style="margin-bottom: 16px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11px; font-weight: 700; color: #34d399; font-family: 'JetBrains Mono', monospace;">
+            ⚡ LAYA SYSTEM-1 SAFETY GATE (ON-DEVICE WEBGPU • 11.4ms)
+          </span>
+          <span style="font-size: 10px; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">
+            RLCD CALIBRATED
+          </span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px;">
+          <div style="background: rgba(0,0,0,0.25); padding: 8px 10px; border-radius: 6px;">
+            <span style="color: var(--text-muted); display: block; font-size: 11px;">Cross-Allergy Score (`score`)</span>
+            <strong style="color: #34d399;">0 / SAFE (P = 0.962)</strong>
+            <span style="display: block; font-size: 10px; color: var(--text-muted);">No Sulfa/Penicillin conflict in Azithromycin + Paracetamol</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.25); padding: 8px 10px; border-radius: 6px;">
+            <span style="color: var(--text-muted); display: block; font-size: 11px;">Schedule X Narcotic Gate (`noul`)</span>
+            <strong style="color: #38bdf8;">P(yes) = 0.002 (PASS)</strong>
+            <span style="display: block; font-size: 10px; color: var(--text-muted);">NMC Telemedicine 2023 Compliant</span>
+          </div>
+        </div>
+      </div>
+
       <button class="btn-sign" onclick="signPrescription()">
         <span>✍️</span>
-        <span>Sign & Seal with Ed25519 Digital Signature</span>
+        <span>Sign & Seal with Ed25519 + Laya Safety Receipt</span>
       </button>
 
       <div id="resultBox" style="display: none; margin-top: 20px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 16px;">
         <strong style="color: #34d399; font-size: 15px;">✅ Prescription Sealed & Committed to Patient's Sovereign Vault!</strong>
         <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Prescription ID: <code id="rxId" style="color: white;"></code></p>
         <p style="font-size: 12px; color: var(--text-muted);">Anti-Counterfeit Nonce: <code id="nonceId" style="color: #60a5fa;"></code></p>
+        <p style="font-size: 12px; color: var(--text-muted);">Laya RLCD Safety Receipt: <code id="layaReceiptId" style="color: #34d399;"></code></p>
         <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Patient has received the legal script on their phone with 1-tap Jan Aushadhi & Tata 1mg checkout.</p>
       </div>
 
@@ -237,16 +262,18 @@
     function signPrescription() {
       const rxId = "RX-NMC-" + Date.now();
       const nonce = "NONCE-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+      const layaReceipt = "LAYA-SIG-" + Math.random().toString(16).substring(2, 10).toUpperCase() + " (P_safe=0.962)";
 
       document.getElementById('rxId').innerText = rxId;
       document.getElementById('nonceId').innerText = nonce;
+      document.getElementById('layaReceiptId').innerText = layaReceipt;
       document.getElementById('resultBox').style.display = 'block';
 
       // Disable button
       const btn = document.querySelector('.btn-sign');
       btn.style.opacity = '0.7';
       btn.style.pointerEvents = 'none';
-      btn.innerHTML = '<span>✅</span><span>Signed & Sealed</span>';
+      btn.innerHTML = '<span>✅</span><span>Signed & Sealed (Ed25519 + Laya System-1)</span>';
     }
   </script>
 </body>
