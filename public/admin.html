@@ -183,6 +183,49 @@
       </div>
     </div>
 
+    <!-- Laya System-1 Non-Autoregressive AI Engine (PWA WebGPU OPFS + Cloudflare Container Fallback) -->
+    <div class="card" style="border-color: rgba(16, 185, 129, 0.35);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div>
+          <h3 style="font-size: 16px; font-weight: 700; color: #34d399;">🧠 Laya System-1 Decision Engine (PWA WebGPU OPFS + Cloudflare Container)</h3>
+          <p style="font-size: 12px; color: var(--text-muted);">100+ Language non-autoregressive triage (`choice` / `score` / `noul`), 8x 22MB R2 OPFS shard streamer, and DPDP §6 PII redaction hooks.</p>
+        </div>
+        <span class="badge badge-primary">OPFS + CF-EDGE READY</span>
+      </div>
+      <div class="grid-2" style="margin-bottom: 12px;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label>Cloudflare R2 ONNX Shard Manifest URL ($0 Egress)</label>
+          <input type="text" id="r2ManifestInput" class="form-control" value="https://r2.phrlite.in/laya-multilingual-q4f16/opfs_manifest.json">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label>Cloudflare Container Stateless Fallback URL</label>
+          <input type="text" id="cfContainerInput" class="form-control" value="https://laya-edge.phrlite.workers.dev/predict">
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); background: rgba(0,0,0,0.25); padding: 10px 14px; border-radius: 8px;">
+        <span id="adminHardwareProbe">Probing Browser WebGPU & W3C Origin Private File System (OPFS)...</span>
+        <button class="btn" onclick="saveLayaConfig()">Save Laya Endpoints</button>
+      </div>
+    </div>
+    <script src="/laya_opfs_client.js"></script>
+    <script>
+      setTimeout(async () => {
+        if (window.PHRJevLayaRuntime) {
+          const st = await window.PHRJevLayaRuntime.probeHardwareAndOPFS();
+          const el = document.getElementById('adminHardwareProbe');
+          if (el) {
+            el.innerHTML = `🟢 <strong>WebGPU:</strong> ${st.gpuAdapterName} &bull; <strong>OPFS Persistent Storage:</strong> ${st.opfsAvailable ? 'ACTIVE (' + st.opfsChunksPersisted + '/8 Shards Persisted)' : 'Fallback'} &bull; <strong>Browser Quota:</strong> ${st.storageQuotaMB} MB`;
+          }
+        }
+      }, 300);
+      function saveLayaConfig() {
+        const r2 = document.getElementById('r2ManifestInput').value;
+        const cf = document.getElementById('cfContainerInput').value;
+        if (window.PHRJevLayaRuntime) window.PHRJevLayaRuntime.setEndpoints(r2, cf);
+        alert('✅ Laya System-1 R2 ONNX Shard URL and Cloudflare Container Fallback updated in persistent OPFS config.');
+      }
+    </script>
+
     <!-- Partner B2B API Key Registry -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">

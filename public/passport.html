@@ -367,6 +367,7 @@
 
   </div>
 
+  <script src="/laya_opfs_client.js"></script>
   <script>
     // State
     const patientState = {
@@ -633,7 +634,8 @@
       if (bar) bar.style.width = pct + '%';
       if (layaChunksLoaded >= layaTotalChunks) {
         clearInterval(layaChunkTimer);
-        if (lbl) lbl.innerText = '🟢 ON-DEVICE AI READY (laya-multilingual-q4f16 • 176 MB Cached in OPFS • 0ms Network)';
+        const hw = window.PHRJevLayaRuntime ? window.PHRJevLayaRuntime.getState() : { gpuAdapterName: 'WebGPU' };
+        if (lbl) lbl.innerText = `🟢 ON-DEVICE AI READY (176 MB Cached in W3C OPFS • ${hw.gpuAdapterName} • 0ms Network)`;
         if (badge) {
           badge.innerText = 'WEBGPU OPFS ACTIVE';
           badge.style.background = 'rgba(16, 185, 129, 0.2)';
